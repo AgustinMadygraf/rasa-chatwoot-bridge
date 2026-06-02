@@ -3,9 +3,9 @@ Path: src/application/orquestador.py
 """
 
 from typing import Any, Dict, List, cast
-from src.domain.entities.message import Message, MessageType
 from src.interface_adapters.gateways.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.interface_adapters.gateways.puerta_enlace_rasa import PuertaEnlaceRasa
+from src.domain.entities.message import Message, MessageType
 
 class Orquestador:
     def __init__(self, puerta_enlace_chatwoot: PuertaEnlaceChatwoot, puerta_enlace_rasa: PuertaEnlaceRasa):
