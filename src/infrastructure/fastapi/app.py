@@ -1,19 +1,16 @@
-"""
-Path: src/infrastructure/web/fastapi/app.py
-"""
-
 from fastapi import FastAPI
-from src.interface_adapters.controllers.controlador_webhook import router as webhook_router
+from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
 from src.application.orquestador import Orquestador
+from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
 from src.infrastructure.gateways.puerta_enlace_chatwoot import HttpPuertaEnlaceChatwoot
 from src.infrastructure.gateways.puerta_enlace_rasa import HttpPuertaEnlaceRasa
-from src.interface_adapters.controllers import controlador_webhook
+from src.infrastructure.fastapi import rutas_webhook
 from src.infrastructure.settings.config import ajustes
 from src.infrastructure.settings.logger import logger
 
 app: FastAPI = FastAPI()
 
-# Inyección de dependencias simple usando configuración y logger
+# Inicialización de dependencias
 puerta_enlace_chatwoot = HttpPuertaEnlaceChatwoot(
     base_url=ajustes.chatwoot_base_url,
     api_token=ajustes.chatwoot_api_token,
@@ -21,14 +18,15 @@ puerta_enlace_chatwoot = HttpPuertaEnlaceChatwoot(
 )
 puerta_enlace_rasa = HttpPuertaEnlaceRasa(rasa_url=ajustes.rasa_url)
 orquestador = Orquestador(puerta_enlace_chatwoot, puerta_enlace_rasa)
+controlador = ControladorWebhook(orquestador)
 
-logger.info("Orquestador inicializado correctamente.")
+logger.info("Orquestador y Controlador inicializados correctamente.")
 
-# Inyectar dependencia del orquestador para el webhook
-async def obtener_orquestador():
-    return orquestador
+# Inyectar dependencia del controlador
+async def obtener_controlador_inyectado():
+    return controlador
 
-# Actualizar la dependencia del controlador dinámicamente
-controlador_webhook.obtener_orquestador = obtener_orquestador
+# Actualizar la dependencia en el módulo de rutas
+rutas_webhook.obtener_controlador = obtener_controlador_inyectado
 
 app.include_router(webhook_router)
