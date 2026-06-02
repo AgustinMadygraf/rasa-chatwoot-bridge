@@ -12,4 +12,8 @@ class Configuracion:
     chatwoot_account_id: str = os.getenv("CHATWOOT_ACCOUNT_ID", "1")
     rasa_url: str = os.getenv("RASA_URL", "")
 
+    usar_ngrok: bool = os.getenv("USE_NGROK", "False").lower() == "true"
+    ngrok_auth_token: str = os.getenv("NGROK_AUTH_TOKEN", "")
+    app_port: int = int(os.getenv("PORT", "8000"))
+
 ajustes = Configuracion()

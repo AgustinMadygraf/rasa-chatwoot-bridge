@@ -8,7 +8,6 @@ from src.interface_adapters.controllers.controlador_webhook import ControladorWe
 
 router = APIRouter()
 
-# Esta función será inyectada dinámicamente desde app.py
 def obtener_controlador() -> ControladorWebhook:
     raise NotImplementedError("Dependencia no inyectada")
 

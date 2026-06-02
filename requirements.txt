@@ -10,6 +10,8 @@ httpx==0.28.1
 idna==3.18
 pydantic==2.13.4
 pydantic_core==2.46.4
+pyngrok==8.1.2
+PyYAML==6.0.3
 starlette==1.2.1
 typing-inspection==0.4.2
 typing_extensions==4.15.0
