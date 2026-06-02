@@ -6,10 +6,14 @@ from src.infrastructure.settings.logger import logger
 
 def configurar_logging_ngrok():
     """
-    Configura el logger de la librería pyngrok para que sea visible.
+    Configura el logger de la librería pyngrok para reducir el ruido.
     """
+    # Elevamos el nivel a WARNING para evitar los mensajes de "join connections" y heartbeats
     logger_ngrok = logging.getLogger("pyngrok")
-    logger_ngrok.setLevel(logging.INFO)
+    logger_ngrok.setLevel(logging.WARNING)
+    
+    # También silenciamos el logger específico del proceso de ngrok
+    logging.getLogger("pyngrok.process.ngrok").setLevel(logging.WARNING)
     
     if logger.handlers:
         for handler in logger.handlers:
@@ -27,12 +31,13 @@ def iniciar_tunel():
     try:
         if ajustes.ngrok_auth_token:
             ngrok.set_auth_token(ajustes.ngrok_auth_token)
-
+        
         opciones: Dict[str, Any] = {}
         if ajustes.ngrok_domain:
             opciones["domain"] = ajustes.ngrok_domain
             
         public_url = ngrok.connect(str(ajustes.app_port), **opciones).public_url
+        # Este log es importante, por eso lo mantenemos en nuestro logger principal
         logger.info(f"Túnel ngrok abierto en: {public_url}")
         return public_url
     except Exception as e:
