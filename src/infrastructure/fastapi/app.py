@@ -1,3 +1,7 @@
+"""
+Path: src/infrastructure/fastapi/app.py
+"""
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
