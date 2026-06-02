@@ -4,7 +4,7 @@ Path: src/interface_adapters/gateways/puerta_enlace_rasa.py
 
 from abc import ABC, abstractmethod
 from typing import List
-from src.domain.entities.message import Message
+from src.domain.message import Message
 
 class PuertaEnlaceRasa(ABC):
     @abstractmethod

@@ -3,7 +3,7 @@ Path: src/application/transformador.py
 """
 
 from typing import Any, Dict
-from src.domain.entities.message import Message, MessageType
+from src.domain.message import Message, MessageType
 
 class TransformadorChatwoot:
     @staticmethod

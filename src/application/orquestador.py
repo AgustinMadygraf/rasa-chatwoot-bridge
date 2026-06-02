@@ -3,7 +3,7 @@ Path: src/application/orquestador.py
 """
 
 from typing import List
-from src.domain.entities.message import Message, MessageType
+from src.domain.message import Message, MessageType
 from src.application.ports.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.application.ports.puerta_enlace_rasa import PuertaEnlaceRasa
 

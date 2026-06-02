@@ -4,12 +4,11 @@ Path: src/infrastructure/fastapi/app.py
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
+from src.infrastructure.fastapi.rutas_webhook import router as webhook_router, set_controlador
 from src.application.orquestador import Orquestador
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
 from src.infrastructure.httpx.puerta_enlace_chatwoot import HttpPuertaEnlaceChatwoot
 from src.infrastructure.httpx.puerta_enlace_rasa import HttpPuertaEnlaceRasa
-from src.infrastructure.fastapi import rutas_webhook
 from src.infrastructure.settings.config import ajustes
 from src.infrastructure.settings.logger import logger
 from src.infrastructure.pyngrok.servicio_ngrok import iniciar_tunel
@@ -21,6 +20,7 @@ async def lifespan(app: FastAPI):
 
 app: FastAPI = FastAPI(lifespan=lifespan)
 
+# Inicialización de dependencias
 puerta_enlace_chatwoot = HttpPuertaEnlaceChatwoot(
     base_url=ajustes.chatwoot_base_url,
     api_token=ajustes.chatwoot_api_token,
@@ -32,9 +32,7 @@ controlador = ControladorWebhook(orquestador)
 
 logger.info("Orquestador y Controlador inicializados correctamente.")
 
-async def obtener_controlador_inyectado():
-    return controlador
-
-rutas_webhook.obtener_controlador = obtener_controlador_inyectado
+# Inyectar el controlador en el módulo de rutas antes de incluirlo
+set_controlador(controlador)
 
 app.include_router(webhook_router)

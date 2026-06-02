@@ -4,7 +4,7 @@ Path: src/infrastructure/httpx/puerta_enlace_chatwoot.py
 
 from httpx import AsyncClient
 
-from src.domain.entities.message import Message
+from src.domain.message import Message
 from src.application.ports.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 
 class HttpPuertaEnlaceChatwoot(PuertaEnlaceChatwoot):

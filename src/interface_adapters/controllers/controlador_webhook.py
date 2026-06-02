@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
 from src.application.orquestador import Orquestador
 from src.application.transformador import TransformadorChatwoot
-from src.domain.entities.message import Message
+from src.domain.message import Message
 from src.infrastructure.settings.config import ajustes
 
 class ControladorWebhook:

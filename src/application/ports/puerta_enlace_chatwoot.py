@@ -3,7 +3,7 @@ Path: src/interface_adapters/gateways/puerta_enlace_chatwoot.py
 """
 
 from abc import ABC, abstractmethod
-from src.domain.entities.message import Message
+from src.domain.message import Message
 
 class PuertaEnlaceChatwoot(ABC):
     @abstractmethod

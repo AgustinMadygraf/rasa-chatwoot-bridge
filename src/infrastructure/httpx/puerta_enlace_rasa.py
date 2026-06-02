@@ -5,7 +5,7 @@ Path: src/infrastructure/httpx/puerta_enlace_rasa.py
 import httpx
 from typing import List
 
-from src.domain.entities.message import Message
+from src.domain.message import Message
 from src.application.ports.puerta_enlace_rasa import PuertaEnlaceRasa
 
 class HttpPuertaEnlaceRasa(PuertaEnlaceRasa):
