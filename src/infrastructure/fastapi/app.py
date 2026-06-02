@@ -1,9 +1,13 @@
+"""
+Path: src/infrastructure/fastapi/rutas_webhook.py
+"""
+
 from fastapi import FastAPI
 from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
 from src.application.orquestador import Orquestador
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
-from src.infrastructure.gateways.puerta_enlace_chatwoot import HttpPuertaEnlaceChatwoot
-from src.infrastructure.gateways.puerta_enlace_rasa import HttpPuertaEnlaceRasa
+from infrastructure.httpx.puerta_enlace_chatwoot import HttpPuertaEnlaceChatwoot
+from infrastructure.httpx.puerta_enlace_rasa import HttpPuertaEnlaceRasa
 from src.infrastructure.fastapi import rutas_webhook
 from src.infrastructure.settings.config import ajustes
 from src.infrastructure.settings.logger import logger
