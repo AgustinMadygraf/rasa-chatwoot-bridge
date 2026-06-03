@@ -6,6 +6,7 @@ from typing import Any, Dict, Optional
 from src.application.orquestador import Orquestador
 from src.application.transformador import TransformadorChatwoot
 from src.domain.message import Message
+from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhook
 
 class ControladorWebhook:
     def __init__(self, orquestador: Orquestador, webhook_token: Optional[str] = None):
@@ -16,8 +17,8 @@ class ControladorWebhook:
         # Validación del token de seguridad si está configurado
         if self.webhook_token:
             if token != self.webhook_token:
-                return {"status": "error", "message": "Token de validación inválido"}
+                return PresentadorWebhook.respuesta_error("Token de validación inválido")
 
         mensaje: Message = TransformadorChatwoot.a_dominio(payload)
         await self.orquestador.manejar_mensaje_entrante(mensaje)
-        return {"status": "ok"}
+        return PresentadorWebhook.respuesta_exitosa()

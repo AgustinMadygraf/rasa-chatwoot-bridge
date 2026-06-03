@@ -6,6 +6,7 @@ from httpx import AsyncClient
 
 from src.domain.message import Message
 from src.application.ports.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
+from src.interface_adapters.presenters.presentador_chatwoot import PresentadorChatwoot
 
 class HttpPuertaEnlaceChatwoot(PuertaEnlaceChatwoot):
     def __init__(self, base_url: str, api_token: str, account_id: str):
@@ -16,6 +17,6 @@ class HttpPuertaEnlaceChatwoot(PuertaEnlaceChatwoot):
     async def enviar_mensaje(self, conversation_id: str, message: Message) -> None:
         url = f"{self.base_url}/api/v1/accounts/{self.account_id}/conversations/{conversation_id}/messages"
         headers = {"api_access_token": self.api_token}
-        payload = {"content": message.content, "message_type": "outgoing"}
+        payload = PresentadorChatwoot.a_payload_chatwoot(message)
         async with AsyncClient() as client:
             await client.post(url, json=payload, headers=headers)
