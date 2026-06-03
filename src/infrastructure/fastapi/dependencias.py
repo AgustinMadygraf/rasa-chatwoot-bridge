@@ -14,6 +14,7 @@ from src.interface_adapters.gateways.gateway_chatwoot import GatewayChatwoot
 from src.interface_adapters.gateways.gateway_rasa import GatewayRasa
 from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
 from src.infrastructure.settings.config import ajustes
+from src.infrastructure.settings.logger import logger
 
 @lru_cache()
 def obtener_http_client() -> HttpxClient:
@@ -48,7 +49,8 @@ def obtener_orquestador() -> Orquestador:
     return Orquestador(
         obtener_puerta_enlace_chatwoot(),
         obtener_puerta_enlace_rasa(),
-        use_rasa=ajustes.use_rasa
+        use_rasa=ajustes.use_rasa,
+        logger=logger
     )
 
 @lru_cache()
