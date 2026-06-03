@@ -1,6 +1,5 @@
 """
-Path: src/infrastructure/fastapi/app.py
-
+Path: src/infrastructure/fastapi/dependencias.py
 """
 
 from functools import lru_cache
@@ -31,4 +30,4 @@ def obtener_orquestador() -> Orquestador:
 
 @lru_cache()
 def obtener_controlador_webhook() -> ControladorWebhook:
-    return ControladorWebhook(obtener_orquestador())
+    return ControladorWebhook(obtener_orquestador(), ajustes.chatwoot_webhook_token)
