@@ -1,32 +1,18 @@
-import logging
+"""
+Path: src/infrastructure/pyngrok/servicio_ngrok.py
+"""
+
 from typing import Any, Dict
 from pyngrok import ngrok
 from src.infrastructure.settings.config import ajustes
-from src.infrastructure.settings.logger import logger
+from src.infrastructure.settings.logger import AppLogger
 
-def configurar_logging_ngrok():
-    """
-    Configura el logger de la librería pyngrok para reducir el ruido.
-    """
-    # Elevamos el nivel a WARNING para evitar los mensajes de "join connections" y heartbeats
-    logger_ngrok = logging.getLogger("pyngrok")
-    logger_ngrok.setLevel(logging.WARNING)
-    
-    # También silenciamos el logger específico del proceso de ngrok
-    logging.getLogger("pyngrok.process.ngrok").setLevel(logging.WARNING)
-    
-    if logger.handlers:
-        for handler in logger.handlers:
-            logger_ngrok.addHandler(handler)
-
-def iniciar_tunel():
+def iniciar_tunel(logger: AppLogger):
     """
     Inicializa el túnel de ngrok si está habilitado en la configuración.
     """
     if not ajustes.usar_ngrok:
         return None
-
-    configurar_logging_ngrok()
 
     try:
         if ajustes.ngrok_auth_token:

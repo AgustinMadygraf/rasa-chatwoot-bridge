@@ -5,13 +5,14 @@ Path: src/infrastructure/fastapi/app.py
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
-from src.infrastructure.settings.logger import logger
+from src.infrastructure.settings.logger import logger, configurar_logging_ngrok
 from src.infrastructure.pyngrok.servicio_ngrok import iniciar_tunel
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Acciones al iniciar
-    iniciar_tunel()
+    configurar_logging_ngrok(logger)
+    iniciar_tunel(logger)
     logger.info("Aplicación iniciada y túnel configurado.")
     yield
     # Acciones al cerrar
