@@ -3,6 +3,7 @@ Path: src/infrastructure/fastapi/dependencias.py
 """
 
 from functools import lru_cache
+from typing import Optional
 from src.application.orquestador import Orquestador
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhook
@@ -11,11 +12,18 @@ from src.interface_adapters.presenters.presentador_rasa import PresentadorRasa
 from src.infrastructure.httpx.cliente_httpx import HttpxClient
 from src.interface_adapters.gateways.gateway_chatwoot import GatewayChatwoot
 from src.interface_adapters.gateways.gateway_rasa import GatewayRasa
+from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
 from src.infrastructure.settings.config import ajustes
 
 @lru_cache()
 def obtener_http_client() -> HttpxClient:
     return HttpxClient()
+
+@lru_cache()
+def obtener_servicio_tunel() -> Optional[NgrokGateway]:
+    if ajustes.usar_ngrok:
+        return NgrokGateway()
+    return None
 
 @lru_cache()
 def obtener_puerta_enlace_chatwoot() -> GatewayChatwoot:
