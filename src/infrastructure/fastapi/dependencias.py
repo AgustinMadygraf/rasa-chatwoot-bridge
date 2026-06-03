@@ -47,7 +47,8 @@ def obtener_puerta_enlace_rasa() -> GatewayRasa:
 def obtener_orquestador() -> Orquestador:
     return Orquestador(
         obtener_puerta_enlace_chatwoot(),
-        obtener_puerta_enlace_rasa()
+        obtener_puerta_enlace_rasa(),
+        use_rasa=ajustes.use_rasa
     )
 
 @lru_cache()
