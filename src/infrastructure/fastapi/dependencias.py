@@ -54,4 +54,4 @@ def obtener_orquestador() -> Orquestador:
 @lru_cache()
 def obtener_controlador_webhook() -> ControladorWebhook:
     presentador = PresentadorWebhook()
-    return ControladorWebhook(obtener_orquestador(), presentador, ajustes.chatwoot_webhook_token)
+    return ControladorWebhook(obtener_orquestador(), presentador, None)
