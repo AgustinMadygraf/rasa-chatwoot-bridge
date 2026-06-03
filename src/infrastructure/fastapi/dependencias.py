@@ -5,6 +5,7 @@ Path: src/infrastructure/fastapi/dependencias.py
 from functools import lru_cache
 from src.application.orquestador import Orquestador
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
+from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhook
 from src.infrastructure.httpx.puerta_enlace_chatwoot import HttpPuertaEnlaceChatwoot
 from src.infrastructure.httpx.puerta_enlace_rasa import HttpPuertaEnlaceRasa
 from src.infrastructure.settings.config import ajustes
@@ -30,4 +31,5 @@ def obtener_orquestador() -> Orquestador:
 
 @lru_cache()
 def obtener_controlador_webhook() -> ControladorWebhook:
-    return ControladorWebhook(obtener_orquestador(), ajustes.chatwoot_webhook_token)
+    presentador = PresentadorWebhook()
+    return ControladorWebhook(obtener_orquestador(), presentador, ajustes.chatwoot_webhook_token)

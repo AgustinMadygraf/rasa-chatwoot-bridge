@@ -2,13 +2,18 @@
 Path: src/interface_adapters/presenters/presentador_webhook.py
 """
 
-from typing import Dict
+from typing import Dict, Protocol
+
+class PresentadorWebhookInterface(Protocol):
+    def respuesta_exitosa(self) -> Dict[str, str]:
+        ...
+
+    def respuesta_error(self, mensaje: str) -> Dict[str, str]:
+        ...
 
 class PresentadorWebhook:
-    @staticmethod
-    def respuesta_exitosa() -> Dict[str, str]:
+    def respuesta_exitosa(self) -> Dict[str, str]:
         return {"status": "ok", "message": "Procesado correctamente"}
 
-    @staticmethod
-    def respuesta_error(mensaje: str) -> Dict[str, str]:
+    def respuesta_error(self, mensaje: str) -> Dict[str, str]:
         return {"status": "error", "message": mensaje}
