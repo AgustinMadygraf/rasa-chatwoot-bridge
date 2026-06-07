@@ -1,5 +1,5 @@
 """
-Path: src/interface_adapters/gateways/gateway_rasa.py
+Path: src/adaptadores/gateways/gateway_rasa.py
 """
 
 from typing import List
