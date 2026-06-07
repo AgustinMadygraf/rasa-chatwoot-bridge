@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+"""
+Path: src/dominio/mensaje.py
+"""
+
 from enum import Enum
 
 class TipoMensaje(Enum):
@@ -11,8 +14,6 @@ class RolRemitente(Enum):
     SISTEMA = "system"
 
 class Mensaje:
-    """Entidad de dominio que representa un mensaje en el sistema."""
-    
     def __init__(
         self,
         id_conversacion: str,

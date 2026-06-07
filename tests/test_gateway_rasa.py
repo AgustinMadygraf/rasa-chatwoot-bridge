@@ -34,10 +34,10 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         
         self.assertEqual(len(resultado), 1)
         self.assertEqual(resultado[0].id_conversacion, "123")
-        self.assertEqual(resultado[0].content, "¡Hola! ¿En qué puedo ayudarte?")
-        self.assertEqual(resultado[0].sender_id, "bot")
-        self.assertEqual(resultado[0].sender_role, RolRemitente.BOT)
-        self.assertEqual(resultado[0].message_type, TipoMensaje.SALIENTE)
+        self.assertEqual(resultado[0].contenido, "¡Hola! ¿En qué puedo ayudarte?")
+        self.assertEqual(resultado[0].id_remitente, "bot")
+        self.assertEqual(resultado[0].rol_remitente, RolRemitente.BOT)
+        self.assertEqual(resultado[0].tipo_mensaje, TipoMensaje.SALIENTE)
         
         mock_http_client.post.assert_called_once_with(
             "http://localhost:5005/webhooks/rest/webhook",
@@ -52,7 +52,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         
         mock_response = MagicMock()
         mock_response.json.return_value = [
-            {}
+            {"text": "respuesta válida"}
         ]
         mock_http_client.post.return_value = mock_response
         
@@ -74,7 +74,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         
         self.assertEqual(len(resultado), 1)
         self.assertEqual(resultado[0].id_conversacion, "123")
-        self.assertEqual(resultado[0].content, "")
+        self.assertEqual(resultado[0].contenido, "respuesta válida")
 
 if __name__ == "__main__":
     unittest.main()
