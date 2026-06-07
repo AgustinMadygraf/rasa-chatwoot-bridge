@@ -26,6 +26,7 @@ class ClienteHttpx(ClienteHTTP):
             return AdaptadorRespuestaHttpx(response)
             
     async def obtener(self, url: str, cabeceras: Optional[Dict[str, str]] = None) -> RespuestaHTTP:
-        async with AsyncClient() as client:
+        # Permitimos seguir redirecciones (302) configurando follow_redirects=True
+        async with AsyncClient(follow_redirects=True) as client:
             response = await client.get(url, headers=cabeceras)
             return AdaptadorRespuestaHttpx(response)

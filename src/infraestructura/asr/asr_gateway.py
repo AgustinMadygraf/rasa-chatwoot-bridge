@@ -37,7 +37,8 @@ class WhisperASRGateway(PuertaEnlaceASR):
             
         try:
             # Ejecutar inferencia en un hilo separado para no bloquear el event loop
-            segments, _ = await asyncio.to_thread(self.model.transcribe, tmp_path)
+            # Se fuerza el idioma a español para mejorar precisión
+            segments, _ = await asyncio.to_thread(self.model.transcribe, tmp_path, language="es")
             
             transcripciones = []
             for segment in segments:
