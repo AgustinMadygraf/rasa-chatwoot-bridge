@@ -1,3 +1,5 @@
+# Path: src/infraestructura/fastapi/rutas_webhook.py
+
 from typing import Any, Optional
 from src.aplicacion.excepciones import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
 from src.infraestructura.settings.registrador import logger

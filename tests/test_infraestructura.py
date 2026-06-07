@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
-from src.infraestructura.httpx.cliente_httpx import HttpxClient
-from src.infraestructura.pyngrok.ngrok_gateway import NgrokGateway
+from src.infraestructura.httpx.cliente_httpx import ClienteHttpx
+from src.infraestructura.pyngrok.ngrok_gateway import PasarelaNgrok
 from src.infraestructura.settings.registrador import configurar_logger
 from src.aplicacion.puertos.registrador import Registrador
 
@@ -16,7 +16,7 @@ async def test_httpx_client_post():
     with patch('src.infraestructura.httpx.cliente_httpx.AsyncClient') as mock_async_client:
         mock_client_instance = mock_async_client.return_value.__aenter__.return_value
         mock_client_instance.post = AsyncMock(return_value=mock_response)
-        client = HttpxClient()
+        client = ClienteHttpx()
         response = await client.enviar(url, json=json_data, cabeceras=cabeceras)
         assert response.codigo_estado == 200
         assert response.json() == {'status': 'ok'}
@@ -27,7 +27,7 @@ async def test_httpx_client_post():
 @patch('src.infraestructura.pyngrok.ngrok_gateway.configurar_logging_ngrok')
 def test_ngrok_gateway_iniciar_no_usar_ngrok(mock_log, mock_ngrok, mock_ajustes):
     mock_ajustes.usar_ngrok = False
-    gateway = NgrokGateway()
+    gateway = PasarelaNgrok()
     result = gateway.iniciar(MagicMock())
     assert result is None
     mock_ngrok.connect.assert_not_called()
@@ -44,7 +44,7 @@ def test_ngrok_gateway_iniciar_exitoso(mock_log, mock_ngrok, mock_ajustes):
     mock_tunnel = MagicMock()
     mock_tunnel.public_url = 'http://public.url'
     mock_ngrok.connect.return_value = mock_tunnel
-    gateway = NgrokGateway()
+    gateway = PasarelaNgrok()
     logger = MagicMock()
     result = gateway.iniciar(logger)
     assert result == 'http://public.url'
@@ -62,7 +62,7 @@ def test_ngrok_gateway_reutilizar_tunel(mock_log, mock_ngrok, mock_ajustes):
     mock_tunnel.config = {'addr': 'localhost:8000'}
     mock_tunnel.public_url = 'http://reused.url'
     mock_ngrok.get_tunnels.return_value = [mock_tunnel]
-    gateway = NgrokGateway()
+    gateway = PasarelaNgrok()
     logger = MagicMock()
     result = gateway.iniciar(logger)
     assert result == 'http://reused.url'
@@ -74,7 +74,7 @@ def test_ngrok_gateway_reutilizar_tunel(mock_log, mock_ngrok, mock_ajustes):
 def test_ngrok_gateway_registrar_error(mock_log, mock_ngrok, mock_ajustes):
     mock_ajustes.usar_ngrok = True
     mock_ngrok.get_tunnels.side_effect = Exception('NGROK ERROR')
-    gateway = NgrokGateway()
+    gateway = PasarelaNgrok()
     logger = MagicMock()
     result = gateway.iniciar(logger)
     assert result is None

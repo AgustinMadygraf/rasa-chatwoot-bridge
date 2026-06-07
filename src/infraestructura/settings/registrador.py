@@ -1,6 +1,8 @@
+# Path: src/infraestructura/registrador.py
+
 import logging
 import sys
-from typing import List
+from typing import Optional
 from src.aplicacion.puertos.registrador import Registrador
 
 class RegistradorAdapter:

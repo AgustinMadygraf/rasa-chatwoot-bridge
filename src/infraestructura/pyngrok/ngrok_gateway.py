@@ -1,3 +1,5 @@
+# Path: infraestructura/pyngrok/ngrok_gateway.py
+
 from typing import Any, Dict, Optional
 from pyngrok import ngrok
 from src.infraestructura.settings.registrador import configurar_logging_ngrok
@@ -5,7 +7,7 @@ from src.infraestructura.settings.config import ajustes
 from src.aplicacion.puertos.registrador import Registrador
 from src.aplicacion.puertos.servicio_tunel import ServicioTunel
 
-class NgrokGateway(ServicioTunel):
+class PasarelaNgrok(ServicioTunel):
     def iniciar(self, logger: Registrador) -> Optional[str]:
         if not ajustes.usar_ngrok:
             return None
