@@ -4,6 +4,7 @@ Path: src/dominio/mensaje.py
 
 from enum import Enum
 
+
 class TipoMensaje(Enum):
     ENTRANTE = "incoming"
     SALIENTE = "outgoing"
@@ -14,6 +15,7 @@ class RolRemitente(Enum):
     SISTEMA = "system"
 
 class Mensaje:
+    
     def __init__(
         self,
         id_conversacion: str,
@@ -33,3 +35,6 @@ class Mensaje:
 
     def es_de_bot(self) -> bool:
         return self.rol_remitente == RolRemitente.BOT
+
+    def es_procesable(self) -> bool:
+        return self.tipo_mensaje == TipoMensaje.ENTRANTE

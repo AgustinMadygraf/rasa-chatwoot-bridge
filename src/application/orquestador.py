@@ -6,20 +6,19 @@ from typing import List
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 from src.application.ports.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.application.ports.puerta_enlace_rasa import PuertaEnlaceRasa
-from src.application.tuberia import TuberiaMensajes
 from src.application.ports.logger import Logger
 
 class Orquestador:
-    def __init__(self, puerta_enlace_chatwoot: PuertaEnlaceChatwoot, puerta_enlace_rasa: PuertaEnlaceRasa, use_rasa: bool, logger: Logger, tuberia: TuberiaMensajes):
+    def __init__(self, puerta_enlace_chatwoot: PuertaEnlaceChatwoot, puerta_enlace_rasa: PuertaEnlaceRasa, use_rasa: bool, logger: Logger):
         self.puerta_enlace_chatwoot = puerta_enlace_chatwoot
         self.puerta_enlace_rasa = puerta_enlace_rasa
         self.use_rasa = use_rasa
         self.logger = logger
-        self.tuberia = tuberia
+        
         
 
     async def manejar_mensaje_entrante(self, mensaje: Mensaje) -> None:
-        if not self.tuberia.should_process(mensaje):
+        if not mensaje.es_procesable():
             return
 
         self.logger.info(f"Orquestador procesando mensaje. Modo Rasa: {self.use_rasa}")
