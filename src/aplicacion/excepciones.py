@@ -8,3 +8,12 @@ class AccesoNoAutorizadoError(AplicacionError):
 
 class ErrorProcesamientoWebhook(AplicacionError):
     pass
+
+class ErrorInfraestructura(AplicacionError):
+    pass
+
+class ErrorDescargaAudio(ErrorInfraestructura):
+    pass
+
+class ErrorInferenciaASR(ErrorInfraestructura):
+    pass

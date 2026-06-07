@@ -6,15 +6,20 @@ from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 class MapeadorMensajeWebhook:
     @staticmethod
     def desde_payload_chatwoot(payload: Dict[str, Any]) -> Mensaje:
-        raw_type = payload.get("message_type", "incoming")
+        attachments = payload.get("attachments", [])
         
+        # Detectar si es audio por adjuntos, incluso si el message_type no es "audio"
         audio_url = None
-        if raw_type == "audio":
+        if attachments:
+            for attachment in attachments:
+                if attachment.get("file_type") in ["audio", "video"]: # Chatwoot a veces etiqueta voz como video
+                    audio_url = attachment.get("data_url")
+                    break
+        
+        if audio_url:
             msg_type = TipoMensaje.AUDIO
-            attachments = payload.get("attachments", [])
-            if attachments:
-                audio_url = attachments[0].get("data_url")
         else:
+            raw_type = payload.get("message_type", "incoming")
             msg_type = TipoMensaje.SALIENTE if raw_type == "outgoing" else TipoMensaje.ENTRANTE
             
         sender_id = str(payload["sender"]["id"])
