@@ -15,7 +15,8 @@ class GatewayChatwoot(PuertaEnlaceChatwoot):
         self.api_token = api_token
         self.account_id = account_id
 
-    async def enviar_mensaje(self, id_conversacion: str, mensaje: Mensaje) -> None:
+    async def enviar_mensaje(self, mensaje: Mensaje) -> None:
+        id_conversacion = mensaje.id_conversacion.valor
         url = f"{self.base_url}/api/v1/accounts/{self.account_id}/conversations/{id_conversacion}/messages"
         cabeceras = {"api_access_token": self.api_token}
         payload = self.presentador.a_payload_chatwoot(mensaje)

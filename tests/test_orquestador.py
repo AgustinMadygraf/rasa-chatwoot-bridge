@@ -36,8 +36,27 @@ class TestProcesarMensajeEntrante(unittest.IsolatedAsyncioTestCase):
         await self.caso_de_uso.ejecutar(mensaje)
 
         self.mock_rasa.enviar_a_rasa.assert_called_once_with(mensaje)
-        self.mock_chatwoot.enviar_mensaje.assert_called_once()
+        # Verificamos que se llame con el objeto mensaje de respuesta, sin el ID redundante
+        self.mock_chatwoot.enviar_mensaje.assert_called_once_with(respuesta_rasa)
         self.mock_logger.informar.assert_any_call("Procesando mensaje. Modo Rasa: True")
+
+    async def test_ejecutar_sin_rasa(self):
+        self.caso_de_uso.usar_rasa = False
+        mensaje = Mensaje(
+            id_conversacion="123",
+            contenido="hola",
+            id_remitente="user1",
+            rol_remitente=RolRemitente.USUARIO,
+            tipo_mensaje=TipoMensaje.ENTRANTE
+        )
+
+        await self.caso_de_uso.ejecutar(mensaje)
+
+        self.mock_rasa.enviar_a_rasa.assert_not_called()
+        self.mock_chatwoot.enviar_mensaje.assert_called_once()
+        sent_msg = self.mock_chatwoot.enviar_mensaje.call_args[0][0]
+        assert sent_msg.contenido == "hola"
+        assert sent_msg.id_conversacion.valor == "123"
 
 if __name__ == "__main__":
     unittest.main()

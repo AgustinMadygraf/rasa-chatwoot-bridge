@@ -1,12 +1,9 @@
 """
-Path: src/aplicacion/puertos/puerta_enlace_rasa.py
+Puerto para la comunicación con Rasa.
 """
 
-from abc import ABC, abstractmethod
-from typing import List
+from typing import Protocol, List
 from src.dominio.mensaje import Mensaje
 
-class PuertaEnlaceRasa(ABC):
-    @abstractmethod
-    async def enviar_a_rasa(self, mensaje: Mensaje) -> List[Mensaje]:
-        pass
+class PuertaEnlaceRasa(Protocol):
+    async def enviar_a_rasa(self, mensaje: Mensaje) -> List[Mensaje]: ...
