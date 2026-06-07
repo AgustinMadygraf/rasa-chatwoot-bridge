@@ -8,11 +8,13 @@ class TestOrquestador(unittest.IsolatedAsyncioTestCase):
         self.mock_chatwoot = AsyncMock()
         self.mock_rasa = AsyncMock()
         self.mock_logger = MagicMock()
+        self.mock_tuberia = MagicMock()
         self.orquestador = Orquestador(
-            self.mock_chatwoot,
-            self.mock_rasa,
-            use_rasa=True,
-            logger=self.mock_logger
+            puerta_enlace_chatwoot=self.mock_chatwoot, 
+            puerta_enlace_rasa=self.mock_rasa, 
+            use_rasa=True, 
+            logger=self.mock_logger, 
+            tuberia=self.mock_tuberia
         )
 
     async def test_manejar_mensaje_entrante_con_rasa(self):
@@ -32,6 +34,7 @@ class TestOrquestador(unittest.IsolatedAsyncioTestCase):
             tipo_mensaje=TipoMensaje.SALIENTE
         )
         self.mock_rasa.enviar_a_rasa.return_value = [respuesta_rasa]
+        self.mock_tuberia.should_process.return_value = True
 
         await self.orquestador.manejar_mensaje_entrante(mensaje)
 

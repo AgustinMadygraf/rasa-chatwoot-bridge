@@ -5,6 +5,7 @@ Path: src/infrastructure/fastapi/dependencias.py
 from functools import lru_cache
 from typing import Optional
 from src.application.orquestador import Orquestador
+from src.application.tuberia import TuberiaMensajes
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhook
 from src.interface_adapters.presenters.presentador_chatwoot import PresentadorChatwoot
@@ -50,7 +51,8 @@ def obtener_orquestador() -> Orquestador:
         obtener_puerta_enlace_chatwoot(),
         obtener_puerta_enlace_rasa(),
         use_rasa=ajustes.use_rasa,
-        logger=logger
+        logger=logger,
+        tuberia=TuberiaMensajes(logger=logger)
     )
 
 @lru_cache()

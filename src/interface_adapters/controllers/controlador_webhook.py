@@ -4,7 +4,7 @@ Path: src/interface_adapters/controllers/controlador_webhook.py
 
 from typing import Any, Dict, Optional
 from src.application.orquestador import Orquestador
-from src.application.transformador import TransformadorChatwoot
+from src.interface_adapters.mapeadores.mapeador_chatwoot import MapeadorChatwoot
 from src.application.exceptions import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
 from src.dominio.mensaje import Mensaje
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhookInterface
@@ -22,7 +22,7 @@ class ControladorWebhook:
                 raise AccesoNoAutorizadoError("Token de validación inválido")
 
         try:
-            mensaje: Mensaje = TransformadorChatwoot.a_dominio(payload)
+            mensaje: Mensaje = MapeadorChatwoot.a_dominio(payload)
             await self.orquestador.manejar_mensaje_entrante(mensaje)
             return self.presentador.respuesta_exitosa()
             

@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import MagicMock
-from src.application.pipeline import MessagePipeline
+from src.application.tuberia import TuberiaMensajes
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
-class TestMessagePipeline(unittest.TestCase):
+class TestTuberiaMensajes(unittest.TestCase):
     def setUp(self):
         self.mock_logger = MagicMock()
-        self.pipeline = MessagePipeline(self.mock_logger)
+        self.pipeline = TuberiaMensajes(self.mock_logger)
 
     def test_should_process_incoming_message(self):
         message = Mensaje(
