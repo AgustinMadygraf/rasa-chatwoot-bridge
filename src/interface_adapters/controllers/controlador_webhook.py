@@ -6,7 +6,7 @@ from typing import Any, Dict, Optional
 from src.application.orquestador import Orquestador
 from src.application.transformador import TransformadorChatwoot
 from src.application.exceptions import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
-from src.domain.message import Message
+from src.dominio.mensaje import Mensaje
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhookInterface
 
 class ControladorWebhook:
@@ -22,7 +22,7 @@ class ControladorWebhook:
                 raise AccesoNoAutorizadoError("Token de validación inválido")
 
         try:
-            mensaje: Message = TransformadorChatwoot.a_dominio(payload)
+            mensaje: Mensaje = TransformadorChatwoot.a_dominio(payload)
             await self.orquestador.manejar_mensaje_entrante(mensaje)
             return self.presentador.respuesta_exitosa()
             

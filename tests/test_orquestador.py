@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, AsyncMock
 from src.application.orquestador import Orquestador
-from src.domain.message import Message, MessageType, SenderRole
+from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TestOrquestador(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
@@ -16,20 +16,20 @@ class TestOrquestador(unittest.IsolatedAsyncioTestCase):
         )
 
     async def test_manejar_mensaje_entrante_con_rasa(self):
-        mensaje = Message(
-            conversation_id="123",
-            content="hola",
-            sender_id="user1",
-            sender_role=SenderRole.USER,
-            message_type=MessageType.INCOMING
+        mensaje = Mensaje(
+            id_conversacion="123",
+            contenido="hola",
+            id_remitente="user1",
+            rol_remitente=RolRemitente.USUARIO,
+            tipo_mensaje=TipoMensaje.ENTRANTE
         )
         
-        respuesta_rasa = Message(
-            conversation_id="123",
-            content="hola soy rasa",
-            sender_id="bot",
-            sender_role=SenderRole.BOT,
-            message_type=MessageType.OUTGOING
+        respuesta_rasa = Mensaje(
+            id_conversacion="123",
+            contenido="hola soy rasa",
+            id_remitente="bot",
+            rol_remitente=RolRemitente.BOT,
+            tipo_mensaje=TipoMensaje.SALIENTE
         )
         self.mock_rasa.enviar_a_rasa.return_value = [respuesta_rasa]
 

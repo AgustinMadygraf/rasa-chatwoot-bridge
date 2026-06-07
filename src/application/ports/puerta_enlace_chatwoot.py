@@ -3,9 +3,9 @@ Path: src/interface_adapters/gateways/puerta_enlace_chatwoot.py
 """
 
 from abc import ABC, abstractmethod
-from src.domain.message import Message
+from src.dominio.mensaje import Mensaje
 
 class PuertaEnlaceChatwoot(ABC):
     @abstractmethod
-    async def enviar_mensaje(self, conversation_id: str, message: Message) -> None:
+    async def enviar_mensaje(self, conversation_id: str, message: Mensaje) -> None:
         pass

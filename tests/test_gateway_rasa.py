@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import AsyncMock, MagicMock
 from src.interface_adapters.gateways.gateway_rasa import GatewayRasa
-from src.domain.message import Message, MessageType, SenderRole
+from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
     async def test_enviar_a_rasa_exito(self):
@@ -22,22 +22,22 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
             rasa_url="http://localhost:5005"
         )
         
-        mensaje_original = Message(
-            conversation_id="123",
-            content="hola",
-            sender_id="user1",
-            sender_role=SenderRole.USER,
-            message_type=MessageType.INCOMING
+        mensaje_original = Mensaje(
+            id_conversacion="123",
+            contenido="hola",
+            id_remitente="user1",
+            rol_remitente=RolRemitente.USUARIO,
+            tipo_mensaje=TipoMensaje.ENTRANTE
         )
         
         resultado = await gateway.enviar_a_rasa(mensaje_original)
         
         self.assertEqual(len(resultado), 1)
-        self.assertEqual(resultado[0].conversation_id, "123")
+        self.assertEqual(resultado[0].id_conversacion, "123")
         self.assertEqual(resultado[0].content, "¡Hola! ¿En qué puedo ayudarte?")
         self.assertEqual(resultado[0].sender_id, "bot")
-        self.assertEqual(resultado[0].sender_role, SenderRole.BOT)
-        self.assertEqual(resultado[0].message_type, MessageType.OUTGOING)
+        self.assertEqual(resultado[0].sender_role, RolRemitente.BOT)
+        self.assertEqual(resultado[0].message_type, TipoMensaje.SALIENTE)
         
         mock_http_client.post.assert_called_once_with(
             "http://localhost:5005/webhooks/rest/webhook",
@@ -62,18 +62,18 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
             rasa_url="http://localhost:5005"
         )
         
-        mensaje_original = Message(
-            conversation_id="123",
-            content="hola",
-            sender_id="user1",
-            sender_role=SenderRole.USER,
-            message_type=MessageType.INCOMING
+        mensaje_original = Mensaje(
+            id_conversacion="123",
+            contenido="hola",
+            id_remitente="user1",
+            rol_remitente=RolRemitente.USUARIO,
+            tipo_mensaje=TipoMensaje.ENTRANTE
         )
         
         resultado = await gateway.enviar_a_rasa(mensaje_original)
         
         self.assertEqual(len(resultado), 1)
-        self.assertEqual(resultado[0].conversation_id, "123")
+        self.assertEqual(resultado[0].id_conversacion, "123")
         self.assertEqual(resultado[0].content, "")
 
 if __name__ == "__main__":

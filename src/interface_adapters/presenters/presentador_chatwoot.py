@@ -3,11 +3,11 @@ Path: src/interface_adapters/presenters/presentador_chatwoot.py
 """
 
 from typing import Any, Dict, Protocol
-from src.domain.message import Message
+from src.dominio.mensaje import Mensaje
 
 class PresentadorChatwootInterface(Protocol):
-    def a_payload_chatwoot(self, message: Message) -> Dict[str, Any]: ...
+    def a_payload_chatwoot(self, message: Mensaje) -> Dict[str, Any]: ...
 
 class PresentadorChatwoot:
-    def a_payload_chatwoot(self, message: Message) -> Dict[str, Any]:
-        return {"content": message.content, "message_type": "outgoing"}
+    def a_payload_chatwoot(self, message: Mensaje) -> Dict[str, Any]:
+        return {"content": message.contenido, "message_type": "outgoing"}

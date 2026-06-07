@@ -3,11 +3,11 @@ Path: src/interface_adapters/presenters/presentador_rasa.py
 """
 
 from typing import Any, Dict, Protocol
-from src.domain.message import Message
+from src.dominio.mensaje import Mensaje
 
 class PresentadorRasaInterface(Protocol):
-    def a_payload_rasa(self, message: Message) -> Dict[str, Any]: ...
+    def a_payload_rasa(self, message: Mensaje) -> Dict[str, Any]: ...
 
 class PresentadorRasa:
-    def a_payload_rasa(self, message: Message) -> Dict[str, Any]:
-        return {"sender": message.conversation_id, "message": message.content}
+    def a_payload_rasa(self, message: Mensaje) -> Dict[str, Any]:
+        return {"sender": message.id_conversacion, "message": message.contenido}

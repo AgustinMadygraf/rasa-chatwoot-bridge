@@ -3,25 +3,25 @@ Path: src/application/transformador.py
 """
 
 from typing import Any, Dict
-from src.domain.message import Message, MessageType, SenderRole
+from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TransformadorChatwoot:
     @staticmethod
-    def a_dominio(payload: Dict[str, Any]) -> Message:
+    def a_dominio(payload: Dict[str, Any]) -> Mensaje:
         # Mapeo directo del tipo de mensaje de Chatwoot
         raw_type = payload.get("message_type", "incoming")
-        msg_type = MessageType.OUTGOING if raw_type == "outgoing" else MessageType.INCOMING
+        msg_type = TipoMensaje.OUTGOING if raw_type == "outgoing" else TipoMensaje.INCOMING
         
         # Mapeo del rol (usamos outgoing para identificar el bot)
         sender_id = str(payload["sender"]["id"])
         
         # Si es outgoing, forzamos rol BOT para asegurar consistencia
-        role = SenderRole.BOT if msg_type == MessageType.OUTGOING else SenderRole.USER
+        role = RolRemitente.BOT if msg_type == TipoMensaje.OUTGOING else RolRemitente.USER
         
-        return Message(
-            conversation_id=str(payload["conversation"]["id"]),
-            content=payload.get("content") or "",
-            sender_id=sender_id,
-            sender_role=role,
-            message_type=msg_type
+        return Mensaje(
+            id_conversacion=str(payload["conversation"]["id"]),
+            contenido=payload.get("content") or "",
+            id_remitente=sender_id,
+            rol_remitente=role,
+            tipo_mensaje=msg_type
         )

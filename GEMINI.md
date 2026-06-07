@@ -3,7 +3,7 @@
 ## Estándares de Arquitectura
 - El proyecto sigue estrictamente **Clean Architecture**.
 - Estructura de carpetas:
-  - `src/domain/`: Entidades y modelos de dominio.
+  - `src/dominio/`: Entidades y modelos de dominio.
   - `src/application/`: Casos de uso y orquestación.
   - `src/interface_adapters/`: Adaptadores (Gateways, Controllers, Presenters).
   - `src/infrastructure/`: Detalles técnicos (FastAPI, clientes HTTP).

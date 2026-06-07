@@ -3,7 +3,7 @@ Path: src/application/orquestador.py
 """
 
 from typing import List
-from src.domain.message import Message, MessageType, SenderRole
+from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 from src.application.ports.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.application.ports.puerta_enlace_rasa import PuertaEnlaceRasa
 from src.application.pipeline import MessagePipeline
@@ -17,26 +17,26 @@ class Orquestador:
         self.logger = logger
         self.pipeline = MessagePipeline(logger)
 
-    async def manejar_mensaje_entrante(self, mensaje: Message) -> None:
+    async def manejar_mensaje_entrante(self, mensaje: Mensaje) -> None:
         if not self.pipeline.should_process(mensaje):
             return
 
         self.logger.info(f"Orquestador procesando mensaje. Modo Rasa: {self.use_rasa}")
         if self.use_rasa:
-            respuestas_rasa: List[Message] = await self.puerta_enlace_rasa.enviar_a_rasa(mensaje)
+            respuestas_rasa: List[Mensaje] = await self.puerta_enlace_rasa.enviar_a_rasa(mensaje)
             for respuesta in respuestas_rasa:
-                if respuesta.content:
-                    await self._enviar_a_chatwoot(mensaje.conversation_id, respuesta.content)
+                if respuesta.contenido:
+                    await self._enviar_a_chatwoot(mensaje.id_conversacion, respuesta.contenido)
         else:
-            await self._enviar_a_chatwoot(mensaje.conversation_id, mensaje.content)
+            await self._enviar_a_chatwoot(mensaje.id_conversacion, mensaje.contenido)
 
     async def _enviar_a_chatwoot(self, conv_id: str, content: str) -> None:
-        mensaje_respuesta = Message(
-            conversation_id=conv_id,
-            content=content,
-            sender_id="bot",
-            sender_role=SenderRole.BOT,
-            message_type=MessageType.OUTGOING
+        mensaje_respuesta = Mensaje(
+            id_conversacion=conv_id,
+            contenido=content,
+            id_remitente="bot",
+            rol_remitente=RolRemitente.BOT,
+            tipo_mensaje=TipoMensaje.SALIENTE
         )
         await self.puerta_enlace_chatwoot.enviar_mensaje(conv_id, mensaje_respuesta)
         self.logger.info("Mensaje enviado a Chatwoot.")
