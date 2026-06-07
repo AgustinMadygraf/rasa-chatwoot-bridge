@@ -11,7 +11,7 @@ class MapeadorMensajeWebhook:
         sender_id = str(payload["sender"]["id"])
         role = RolRemitente.BOT if msg_type == TipoMensaje.SALIENTE else RolRemitente.USUARIO
         
-        return Mensaje.crear_asegurando_contenido(
+        return Mensaje.crear(
             id_conversacion=str(payload["conversation"]["id"]),
             contenido=payload.get("content"),
             id_remitente=sender_id,

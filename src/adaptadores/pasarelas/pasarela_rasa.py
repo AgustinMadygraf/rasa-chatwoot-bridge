@@ -1,6 +1,4 @@
-"""
-Path: src/adaptadores/gateways/gateway_rasa.py
-"""
+# Path: src/adaptadores/pasarelas/pasarela_rasa.py
 
 from typing import List
 from src.aplicacion.puertos.puerta_enlace_rasa import PuertaEnlaceRasa
@@ -24,13 +22,15 @@ class PasarelaRasa(PuertaEnlaceRasa):
             recipient_id = msg.get('recipient_id') or mensaje.id_conversacion.valor
             raw_content = msg.get('text')
             
-            # Solo procesamos mensajes que tengan contenido textual
-            if raw_content and raw_content.strip():
-                mensajes.append(Mensaje.crear_asegurando_contenido(
-                    id_conversacion=str(recipient_id),
-                    contenido=raw_content,
-                    id_remitente='bot',
-                    rol_remitente=RolRemitente.BOT,
-                    tipo_mensaje=TipoMensaje.SALIENTE
-                ))
+            if raw_content:
+                try:
+                    mensajes.append(Mensaje.crear(
+                        id_conversacion=str(recipient_id),
+                        contenido=raw_content,
+                        id_remitente='bot',
+                        rol_remitente=RolRemitente.BOT,
+                        tipo_mensaje=TipoMensaje.SALIENTE
+                    ))
+                except ValueError:
+                    continue
         return mensajes

@@ -32,18 +32,17 @@ class Mensaje:
         self.tipo_mensaje = tipo_mensaje
 
     @classmethod
-    def crear_asegurando_contenido(
+    def crear(
         cls,
         id_conversacion: str,
-        contenido: Optional[str],
+        contenido: str,
         id_remitente: str,
         rol_remitente: RolRemitente,
         tipo_mensaje: TipoMensaje
     ) -> 'Mensaje':
-        contenido_saneado = contenido if contenido and contenido.strip() else "..."
         return cls(
             id_conversacion=id_conversacion,
-            contenido=contenido_saneado,
+            contenido=contenido,
             id_remitente=id_remitente,
             rol_remitente=rol_remitente,
             tipo_mensaje=tipo_mensaje
