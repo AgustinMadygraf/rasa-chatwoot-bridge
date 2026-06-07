@@ -1,5 +1,5 @@
 """
-Puerto para el servicio de túnel (ej. ngrok).
+Path: src/aplicacion/puertos/servicio_tunel.py
 """
 
 from typing import Protocol, Optional

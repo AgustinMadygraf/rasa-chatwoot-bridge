@@ -1,5 +1,8 @@
-from typing import Protocol, List, runtime_checkable
-import logging
+"""
+Path: src/aplicacion/puertos/registrador.py
+"""
+
+from typing import Protocol, runtime_checkable
 
 @runtime_checkable
 class Registrador(Protocol):

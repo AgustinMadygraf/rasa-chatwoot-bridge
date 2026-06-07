@@ -1,5 +1,5 @@
 """
-Puerto para la comunicación con Rasa.
+Path: src/aplicacion/puertos/puerta_enlace_rasa.py
 """
 
 from abc import ABC, abstractmethod

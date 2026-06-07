@@ -18,7 +18,7 @@ async def test_httpx_client_post():
         mock_client_instance.post = AsyncMock(return_value=mock_response)
         client = HttpxClient()
         response = await client.enviar(url, json=json_data, cabeceras=cabeceras)
-        assert response.status_code == 200
+        assert response.codigo_estado == 200
         assert response.json() == {'status': 'ok'}
         mock_client_instance.post.assert_awaited_once_with(url, json=json_data, headers=cabeceras)
 

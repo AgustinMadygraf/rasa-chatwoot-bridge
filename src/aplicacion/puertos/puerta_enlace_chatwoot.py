@@ -1,5 +1,5 @@
 """
-Puerto para la comunicación con Chatwoot.
+Path: src/aplicacion/puertos/puerta_enlace_chatwoot.py
 """
 
 from abc import ABC, abstractmethod
