@@ -1,7 +1,3 @@
-"""
-Path: src/infrastructure/fastapi/app.py
-"""
-
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
@@ -15,6 +11,9 @@ async def lifespan(app: FastAPI):
         servicio_tunel.iniciar(logger)
     logger.info("Aplicación iniciada.")
     yield
+    # --- MEJORA: Cerrar túnel al apagar ---
+    if servicio_tunel:
+        servicio_tunel.cerrar()
     logger.info("Aplicación cerrándose.")
 
 app: FastAPI = FastAPI(lifespan=lifespan)

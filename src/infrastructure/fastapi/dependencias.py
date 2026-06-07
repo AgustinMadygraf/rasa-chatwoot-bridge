@@ -1,6 +1,6 @@
 from functools import lru_cache
 from typing import Optional
-from src.application.orquestador import Orquestador
+from src.application.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
 from src.interface_adapters.controllers.controlador_webhook import ControladorWebhook
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhook
 from src.interface_adapters.presenters.presentador_chatwoot import PresentadorChatwoot
@@ -41,8 +41,8 @@ def obtener_puerta_enlace_rasa() -> GatewayRasa:
     )
 
 @lru_cache()
-def obtener_orquestador() -> Orquestador:
-    return Orquestador(
+def obtener_caso_de_uso_procesar_mensaje() -> ProcesarMensajeEntrante:
+    return ProcesarMensajeEntrante(
         puerta_enlace_chatwoot=obtener_puerta_enlace_chatwoot(),
         puerta_enlace_rasa=obtener_puerta_enlace_rasa(),
         use_rasa=ajustes.use_rasa,
@@ -52,4 +52,4 @@ def obtener_orquestador() -> Orquestador:
 @lru_cache()
 def obtener_controlador_webhook() -> ControladorWebhook:
     presentador = PresentadorWebhook()
-    return ControladorWebhook(obtener_orquestador(), presentador, None)
+    return ControladorWebhook(obtener_caso_de_uso_procesar_mensaje(), presentador, None)
