@@ -11,6 +11,7 @@ from src.infraestructura.httpx.cliente_httpx import ClienteHttpx
 from src.adaptadores.pasarelas.pasarela_chatwoot import PasarelaChatwoot
 from src.adaptadores.pasarelas.pasarela_rasa import PasarelaRasa
 from src.infraestructura.pyngrok.ngrok_gateway import PasarelaNgrok
+from src.infraestructura.asr.asr_gateway import PasarelaASRMock
 from src.infraestructura.settings.config import ajustes
 from src.infraestructura.settings.registrador import logger
 
@@ -43,10 +44,15 @@ def obtener_puerta_enlace_rasa() -> PasarelaRasa:
     )
 
 @lru_cache()
+def obtener_puerta_enlace_asr() -> PasarelaASRMock:
+    return PasarelaASRMock()
+
+@lru_cache()
 def obtener_caso_de_uso_procesar_mensaje() -> ProcesarMensajeEntrante:
     return ProcesarMensajeEntrante(
         puerta_enlace_chatwoot=obtener_puerta_enlace_chatwoot(),
         puerta_enlace_rasa=obtener_puerta_enlace_rasa(),
+        puerta_enlace_asr=obtener_puerta_enlace_asr(),
         usar_rasa=ajustes.usar_rasa,
         logger=logger
     )

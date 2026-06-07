@@ -1,9 +1,10 @@
 # Path: src/aplicacion/casos_de_uso/procesar_mensaje_entrante.py
 
 from typing import List
-from src.dominio.mensaje import Mensaje
+from src.dominio.mensaje import Mensaje, TipoMensaje
 from src.aplicacion.puertos.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.aplicacion.puertos.puerta_enlace_rasa import PuertaEnlaceRasa
+from src.aplicacion.puertos.puerta_enlace_asr import PuertaEnlaceASR
 from src.aplicacion.puertos.registrador import Registrador
 from src.aplicacion.excepciones import ErrorProcesamientoWebhook
 
@@ -11,18 +12,30 @@ class ProcesarMensajeEntrante:
     def __init__(
         self, 
         puerta_enlace_chatwoot: PuertaEnlaceChatwoot, 
-        puerta_enlace_rasa: PuertaEnlaceRasa, 
+        puerta_enlace_rasa: PuertaEnlaceRasa,
+        puerta_enlace_asr: PuertaEnlaceASR,
         usar_rasa: bool, 
         logger: Registrador
     ):
         self.puerta_enlace_chatwoot = puerta_enlace_chatwoot
         self.puerta_enlace_rasa = puerta_enlace_rasa
+        self.puerta_enlace_asr = puerta_enlace_asr
         self.usar_rasa = usar_rasa
         self.logger = logger
 
     async def ejecutar(self, mensaje: Mensaje) -> None:
         if not mensaje.es_procesable():
             return
+
+        if mensaje.tipo_mensaje == TipoMensaje.AUDIO:
+            self.logger.informar('Transcribiendo audio...')
+            audio_url = mensaje.audio_url
+            if audio_url is None:
+                raise ErrorProcesamientoWebhook('Falta la URL de audio para el mensaje de audio')
+            texto = await self.puerta_enlace_asr.transcribir_audio(audio_url)
+            mensaje.contenido = texto
+            mensaje.tipo_mensaje = TipoMensaje.ENTRANTE
+            self.logger.informar(f'Transcripción completada: {texto}')
 
         self.logger.informar(f'Procesando mensaje. Modo Rasa: {self.usar_rasa}')
         try:
