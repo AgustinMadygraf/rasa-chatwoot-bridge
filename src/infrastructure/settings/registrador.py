@@ -19,10 +19,6 @@ class RegistradorAdapter:
     def advertir(self, msg: str) -> None:
         self._logger.warning(msg)
 
-    @property
-    def handlers(self) -> List[logging.Handler]:
-        return self._logger.handlers
-
 def configurar_logger() -> Registrador:
     logger = logging.getLogger('puente_rasa_chatwoot')
     logger.setLevel(logging.INFO)
@@ -32,14 +28,9 @@ def configurar_logger() -> Registrador:
     logger.addHandler(handler)
     return RegistradorAdapter(logger)
 
-def configurar_logging_ngrok(logger: Registrador):
+def configurar_logging_ngrok(logger: Registrador = None):
     logger_ngrok = logging.getLogger('pyngrok')
     logger_ngrok.setLevel(logging.WARNING)
-
     logging.getLogger('pyngrok.process.ngrok').setLevel(logging.WARNING)
-
-    if logger.handlers:
-        for handler in logger.handlers:
-            logger_ngrok.addHandler(handler)
 
 logger = configurar_logger()

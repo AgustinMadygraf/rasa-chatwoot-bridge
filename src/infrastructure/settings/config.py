@@ -1,5 +1,5 @@
 """
-Path: src/infrastructure/settings/config.py
+Configuración de la aplicación.
 """
 
 import os
@@ -22,6 +22,6 @@ class Configuracion:
     ngrok_domain: str = os.getenv("NGROK_DOMAIN", "")
     app_port: int = int(os.getenv("PORT", "8000"))
 
-    use_rasa: bool = os.getenv("USE_RASA", "True").lower() == "true"
+    usar_rasa: bool = os.getenv("USE_RASA", "True").lower() == "true"
 
 ajustes = Configuracion()

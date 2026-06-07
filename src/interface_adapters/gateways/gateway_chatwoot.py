@@ -1,5 +1,5 @@
 """
-Path: src/interface_adapters/gateways/gateway_chatwoot.py
+Implementación del gateway de Chatwoot.
 """
 
 from src.aplicacion.puertos.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
@@ -15,8 +15,8 @@ class GatewayChatwoot(PuertaEnlaceChatwoot):
         self.api_token = api_token
         self.account_id = account_id
 
-    async def enviar_mensaje(self, conversation_id: str, message: Mensaje) -> None:
-        url = f"{self.base_url}/api/v1/accounts/{self.account_id}/conversations/{conversation_id}/messages"
-        headers = {"api_access_token": self.api_token}
-        payload = self.presentador.a_payload_chatwoot(message)
-        await self.cliente_http.enviar(url, json=payload, headers=headers)
+    async def enviar_mensaje(self, id_conversacion: str, mensaje: Mensaje) -> None:
+        url = f"{self.base_url}/api/v1/accounts/{self.account_id}/conversations/{id_conversacion}/messages"
+        cabeceras = {"api_access_token": self.api_token}
+        payload = self.presentador.a_payload_chatwoot(mensaje)
+        await self.cliente_http.enviar(url, json=payload, cabeceras=cabeceras)

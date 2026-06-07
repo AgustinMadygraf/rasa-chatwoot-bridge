@@ -39,13 +39,24 @@ class Mensaje:
         tipo_mensaje: TipoMensaje
     ) -> 'Mensaje':
         """Factoría que sanea el contenido antes de instanciar."""
-        contenido_saneado = contenido if contenido and contenido.strip() else " "
+        contenido_saneado = contenido if contenido and contenido.strip() else "..."
         return cls(
             id_conversacion=id_conversacion,
             contenido=contenido_saneado,
             id_remitente=id_remitente,
             rol_remitente=rol_remitente,
             tipo_mensaje=tipo_mensaje
+        )
+
+    @classmethod
+    def responder(cls, id_conversacion: str, contenido: str) -> 'Mensaje':
+        """Crea un mensaje de respuesta del bot."""
+        return cls(
+            id_conversacion=id_conversacion,
+            contenido=contenido,
+            id_remitente='bot',
+            rol_remitente=RolRemitente.BOT,
+            tipo_mensaje=TipoMensaje.SALIENTE
         )
 
     def es_de_bot(self) -> bool:

@@ -14,7 +14,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         mock_response.json.return_value = [
             {"recipient_id": "123", "text": "¡Hola! ¿En qué puedo ayudarte?"}
         ]
-        mock_cliente_http.post.return_value = mock_response
+        mock_cliente_http.enviar.return_value = mock_response
         
         gateway = GatewayRasa(
             cliente_http=mock_cliente_http,
@@ -39,7 +39,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(resultado[0].rol_remitente, RolRemitente.BOT)
         self.assertEqual(resultado[0].tipo_mensaje, TipoMensaje.SALIENTE)
         
-        mock_cliente_http.post.assert_called_once_with(
+        mock_cliente_http.enviar.assert_called_once_with(
             "http://localhost:5005/webhooks/rest/webhook",
             json={"sender": "123", "message": "hola"}
         )
@@ -54,7 +54,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         mock_response.json.return_value = [
             {"text": "respuesta válida"}
         ]
-        mock_cliente_http.post.return_value = mock_response
+        mock_cliente_http.enviar.return_value = mock_response
         
         gateway = GatewayRasa(
             cliente_http=mock_cliente_http,

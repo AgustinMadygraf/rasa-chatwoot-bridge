@@ -1,3 +1,7 @@
+"""
+Implementación del gateway de Rasa.
+"""
+
 from typing import List
 from src.aplicacion.puertos.puerta_enlace_rasa import PuertaEnlaceRasa
 from src.aplicacion.puertos.cliente_http import ClienteHTTP
@@ -10,21 +14,23 @@ class GatewayRasa(PuertaEnlaceRasa):
         self.presentador = presentador
         self.rasa_url = rasa_url
 
-    async def enviar_a_rasa(self, message: Mensaje) -> List[Mensaje]:
+    async def enviar_a_rasa(self, mensaje: Mensaje) -> List[Mensaje]:
         url = f'{self.rasa_url}/webhooks/rest/webhook'
-        payload = self.presentador.a_payload_rasa(message)
-        response = await self.cliente_http.enviar(url, json=payload)
+        payload = self.presentador.a_payload_rasa(mensaje)
+        respuesta = await self.cliente_http.enviar(url, json=payload)
         
         mensajes: List[Mensaje] = []
-        for msg in response.json():
-            recipient_id = msg.get('recipient_id') or message.id_conversacion.valor
+        for msg in respuesta.json():
+            recipient_id = msg.get('recipient_id') or mensaje.id_conversacion.valor
             raw_content = msg.get('text')
             
-            mensajes.append(Mensaje.crear_seguro(
-                id_conversacion=str(recipient_id),
-                contenido=raw_content,
-                id_remitente='bot',
-                rol_remitente=RolRemitente.BOT,
-                tipo_mensaje=TipoMensaje.SALIENTE
-            ))
+            # Solo procesamos mensajes que tengan contenido textual
+            if raw_content and raw_content.strip():
+                mensajes.append(Mensaje.crear_seguro(
+                    id_conversacion=str(recipient_id),
+                    contenido=raw_content,
+                    id_remitente='bot',
+                    rol_remitente=RolRemitente.BOT,
+                    tipo_mensaje=TipoMensaje.SALIENTE
+                ))
         return mensajes

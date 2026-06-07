@@ -11,7 +11,7 @@ class TestProcesarMensajeEntrante(unittest.IsolatedAsyncioTestCase):
         self.caso_de_uso = ProcesarMensajeEntrante(
             puerta_enlace_chatwoot=self.mock_chatwoot, 
             puerta_enlace_rasa=self.mock_rasa, 
-            use_rasa=True, 
+            usar_rasa=True, 
             logger=self.mock_logger
         )
 
@@ -37,7 +37,7 @@ class TestProcesarMensajeEntrante(unittest.IsolatedAsyncioTestCase):
 
         self.mock_rasa.enviar_a_rasa.assert_called_once_with(mensaje)
         self.mock_chatwoot.enviar_mensaje.assert_called_once()
-        self.mock_logger.info.assert_any_call("Procesando mensaje. Modo Rasa: True")
+        self.mock_logger.informar.assert_any_call("Procesando mensaje. Modo Rasa: True")
 
 if __name__ == "__main__":
     unittest.main()

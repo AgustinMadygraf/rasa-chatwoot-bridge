@@ -45,7 +45,7 @@ def obtener_caso_de_uso_procesar_mensaje() -> ProcesarMensajeEntrante:
     return ProcesarMensajeEntrante(
         puerta_enlace_chatwoot=obtener_puerta_enlace_chatwoot(),
         puerta_enlace_rasa=obtener_puerta_enlace_rasa(),
-        use_rasa=ajustes.use_rasa,
+        usar_rasa=ajustes.usar_rasa,
         logger=logger
     )
 

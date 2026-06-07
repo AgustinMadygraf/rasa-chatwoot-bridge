@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from src.aplicacion.exceptions import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
+from src.aplicacion.excepciones import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
 from src.infrastructure.settings.registrador import logger
 from fastapi import APIRouter, Header, Request, Depends, HTTPException
 from src.infrastructure.fastapi.dependencias import obtener_controlador_webhook

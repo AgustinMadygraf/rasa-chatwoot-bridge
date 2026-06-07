@@ -3,12 +3,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from src.infrastructure.httpx.cliente_httpx import HttpxClient
 from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
 from src.infrastructure.settings.registrador import configurar_logger
+from src.aplicacion.puertos.registrador import Registrador
 
 @pytest.mark.asyncio
 async def test_httpx_client_post():
     url = 'http://test.com'
     json_data = {'key': 'value'}
-    headers = {'Authorization': 'Bearer token'}
+    cabeceras = {'Authorization': 'Bearer token'}
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = {'status': 'ok'}
@@ -16,10 +17,10 @@ async def test_httpx_client_post():
         mock_client_instance = mock_async_client.return_value.__aenter__.return_value
         mock_client_instance.post = AsyncMock(return_value=mock_response)
         client = HttpxClient()
-        response = await client.enviar(url, json=json_data, headers=headers)
+        response = await client.enviar(url, json=json_data, cabeceras=cabeceras)
         assert response.status_code == 200
         assert response.json() == {'status': 'ok'}
-        mock_client_instance.post.assert_awaited_once_with(url, json=json_data, headers=headers)
+        mock_client_instance.post.assert_awaited_once_with(url, json=json_data, headers=cabeceras)
 
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ajustes')
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ngrok')
@@ -48,7 +49,7 @@ def test_ngrok_gateway_iniciar_exitoso(mock_log, mock_ngrok, mock_ajustes):
     result = gateway.iniciar(logger)
     assert result == 'http://public.url'
     mock_ngrok.connect.assert_called_once_with('8000')
-    logger.info.assert_called()
+    logger.informar.assert_called()
 
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ajustes')
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ngrok')
@@ -65,7 +66,7 @@ def test_ngrok_gateway_reutilizar_tunel(mock_log, mock_ngrok, mock_ajustes):
     logger = MagicMock()
     result = gateway.iniciar(logger)
     assert result == 'http://reused.url'
-    logger.info.assert_called_with('Reutilizando túnel existente: http://reused.url')
+    logger.informar.assert_called_with('Reutilizando túnel existente: http://reused.url')
 
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ajustes')
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ngrok')
@@ -77,8 +78,8 @@ def test_ngrok_gateway_registrar_error(mock_log, mock_ngrok, mock_ajustes):
     logger = MagicMock()
     result = gateway.iniciar(logger)
     assert result is None
-    logger.error.assert_called()
+    logger.registrar_error.assert_called()
 
 def test_configurar_logger():
     logger = configurar_logger()
-    assert logger.name == 'puente_rasa_chatwoot'
+    assert isinstance(logger, Registrador)

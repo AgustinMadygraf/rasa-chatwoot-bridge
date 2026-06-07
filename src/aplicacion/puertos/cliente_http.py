@@ -1,3 +1,7 @@
+"""
+Puerto para el cliente HTTP.
+"""
+
 from typing import Protocol, Any, Dict, Optional
 
 class RespuestaHTTP(Protocol):
@@ -6,4 +10,4 @@ class RespuestaHTTP(Protocol):
     def status_code(self) -> int: ...
 
 class ClienteHTTP(Protocol):
-    async def enviar(self, url: str, json: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None) -> RespuestaHTTP: ...
+    async def enviar(self, url: str, json: Optional[Dict[str, Any]] = None, cabeceras: Optional[Dict[str, str]] = None) -> RespuestaHTTP: ...
