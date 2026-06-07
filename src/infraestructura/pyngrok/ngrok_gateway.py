@@ -1,7 +1,7 @@
 # Path: infraestructura/pyngrok/ngrok_gateway.py
 
 from typing import Any, Dict, Optional
-from pyngrok import ngrok
+from pyngrok import ngrok  # type: ignore
 from src.infraestructura.settings.registrador import configurar_logging_ngrok
 from src.infraestructura.settings.config import ajustes
 from src.aplicacion.puertos.registrador import Registrador

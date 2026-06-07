@@ -1,11 +1,11 @@
 # Path: src/infraestructura/httpx/cliente_httpx.py
 
-from httpx import AsyncClient
+from httpx import AsyncClient, Response
 from typing import Any, Dict, Optional
 from src.aplicacion.puertos.cliente_http import RespuestaHTTP
 
 class AdaptadorRespuestaHttpx:
-    def __init__(self, response):
+    def __init__(self, response: Response):
         self._response = response
 
     def json(self) -> Any:
