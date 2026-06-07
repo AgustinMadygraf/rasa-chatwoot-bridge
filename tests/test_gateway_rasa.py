@@ -5,7 +5,7 @@ from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
     async def test_enviar_a_rasa_exito(self):
-        mock_http_client = AsyncMock()
+        mock_cliente_http = AsyncMock()
         mock_presentador = MagicMock()
         
         mock_presentador.a_payload_rasa.return_value = {"sender": "123", "message": "hola"}
@@ -14,10 +14,10 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         mock_response.json.return_value = [
             {"recipient_id": "123", "text": "¡Hola! ¿En qué puedo ayudarte?"}
         ]
-        mock_http_client.post.return_value = mock_response
+        mock_cliente_http.post.return_value = mock_response
         
         gateway = GatewayRasa(
-            http_client=mock_http_client,
+            cliente_http=mock_cliente_http,
             presentador=mock_presentador,
             rasa_url="http://localhost:5005"
         )
@@ -39,13 +39,13 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(resultado[0].rol_remitente, RolRemitente.BOT)
         self.assertEqual(resultado[0].tipo_mensaje, TipoMensaje.SALIENTE)
         
-        mock_http_client.post.assert_called_once_with(
+        mock_cliente_http.post.assert_called_once_with(
             "http://localhost:5005/webhooks/rest/webhook",
             json={"sender": "123", "message": "hola"}
         )
 
     async def test_enviar_a_rasa_sin_recipient_id_ni_text(self):
-        mock_http_client = AsyncMock()
+        mock_cliente_http = AsyncMock()
         mock_presentador = MagicMock()
         
         mock_presentador.a_payload_rasa.return_value = {"sender": "123", "message": "hola"}
@@ -54,10 +54,10 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         mock_response.json.return_value = [
             {"text": "respuesta válida"}
         ]
-        mock_http_client.post.return_value = mock_response
+        mock_cliente_http.post.return_value = mock_response
         
         gateway = GatewayRasa(
-            http_client=mock_http_client,
+            cliente_http=mock_cliente_http,
             presentador=mock_presentador,
             rasa_url="http://localhost:5005"
         )

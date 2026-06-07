@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from src.infrastructure.httpx.cliente_httpx import HttpxClient
 from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
-from src.infrastructure.settings.logger import configurar_logger
+from src.infrastructure.settings.registrador import configurar_logger
 
 @pytest.mark.asyncio
 async def test_httpx_client_post():
@@ -16,7 +16,7 @@ async def test_httpx_client_post():
         mock_client_instance = mock_async_client.return_value.__aenter__.return_value
         mock_client_instance.post = AsyncMock(return_value=mock_response)
         client = HttpxClient()
-        response = await client.post(url, json=json_data, headers=headers)
+        response = await client.enviar(url, json=json_data, headers=headers)
         assert response.status_code == 200
         assert response.json() == {'status': 'ok'}
         mock_client_instance.post.assert_awaited_once_with(url, json=json_data, headers=headers)
@@ -70,7 +70,7 @@ def test_ngrok_gateway_reutilizar_tunel(mock_log, mock_ngrok, mock_ajustes):
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ajustes')
 @patch('src.infrastructure.pyngrok.ngrok_gateway.ngrok')
 @patch('src.infrastructure.pyngrok.ngrok_gateway.configurar_logging_ngrok')
-def test_ngrok_gateway_error(mock_log, mock_ngrok, mock_ajustes):
+def test_ngrok_gateway_registrar_error(mock_log, mock_ngrok, mock_ajustes):
     mock_ajustes.usar_ngrok = True
     mock_ngrok.get_tunnels.side_effect = Exception('NGROK ERROR')
     gateway = NgrokGateway()

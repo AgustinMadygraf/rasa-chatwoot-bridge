@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, AsyncMock
-from src.application.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
+from src.aplicacion.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TestProcesarMensajeEntrante(unittest.IsolatedAsyncioTestCase):

@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
-from src.application.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
+from src.aplicacion.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
 from src.interface_adapters.mapeadores.mapeador_chatwoot import MapeadorChatwoot
-from src.application.exceptions import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
+from src.aplicacion.exceptions import AccesoNoAutorizadoError, ErrorProcesamientoWebhook
 from src.dominio.mensaje import Mensaje
 from src.interface_adapters.presenters.presentador_webhook import PresentadorWebhookInterface
 

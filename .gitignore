@@ -3,3 +3,4 @@ docs/TMP.md
 __pycache__/
 .env
 .coverage
+mypy.ini
