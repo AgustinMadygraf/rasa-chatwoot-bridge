@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import AsyncMock, MagicMock
-from src.adaptadores.gateways.gateway_rasa import GatewayRasa
+from src.adaptadores.pasarelas.pasarela_rasa import PasarelaRasa
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
-class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
+class TestPasarelaRasa(unittest.IsolatedAsyncioTestCase):
     async def test_enviar_a_rasa_exito(self):
         mock_cliente_http = AsyncMock()
         mock_presentador = MagicMock()
@@ -16,7 +16,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         ]
         mock_cliente_http.enviar.return_value = mock_response
         
-        gateway = GatewayRasa(
+        gateway = PasarelaRasa(
             cliente_http=mock_cliente_http,
             presentador=mock_presentador,
             rasa_url="http://localhost:5005"
@@ -56,7 +56,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         ]
         mock_cliente_http.enviar.return_value = mock_response
         
-        gateway = GatewayRasa(
+        gateway = PasarelaRasa(
             cliente_http=mock_cliente_http,
             presentador=mock_presentador,
             rasa_url="http://localhost:5005"

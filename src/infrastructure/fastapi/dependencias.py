@@ -1,13 +1,13 @@
 from functools import lru_cache
 from typing import Optional
 from src.aplicacion.casos_de_uso.procesar_mensaje_entrante import ProcesarMensajeEntrante
-from src.adaptadores.controllers.controlador_webhook import ControladorWebhook
+from src.adaptadores.controladores.controlador_webhook import ControladorWebhook
 from src.adaptadores.presentadores.presentador_webhook import PresentadorWebhook
 from src.adaptadores.presentadores.presentador_chatwoot import PresentadorChatwoot
 from src.adaptadores.presentadores.presentador_rasa import PresentadorRasa
 from src.infrastructure.httpx.cliente_httpx import HttpxClient
-from src.adaptadores.gateways.gateway_chatwoot import GatewayChatwoot
-from src.adaptadores.gateways.gateway_rasa import GatewayRasa
+from src.adaptadores.pasarelas.pasarela_chatwoot import PasarelaChatwoot
+from src.adaptadores.pasarelas.pasarela_rasa import PasarelaRasa
 from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
 from src.infrastructure.settings.config import ajustes
 from src.infrastructure.settings.registrador import logger
@@ -23,8 +23,8 @@ def obtener_servicio_tunel() -> Optional[NgrokGateway]:
     return None
 
 @lru_cache()
-def obtener_puerta_enlace_chatwoot() -> GatewayChatwoot:
-    return GatewayChatwoot(
+def obtener_puerta_enlace_chatwoot() -> PasarelaChatwoot:
+    return PasarelaChatwoot(
         obtener_cliente_http(),
         PresentadorChatwoot(),
         base_url=ajustes.chatwoot_base_url,
@@ -33,8 +33,8 @@ def obtener_puerta_enlace_chatwoot() -> GatewayChatwoot:
     )
 
 @lru_cache()
-def obtener_puerta_enlace_rasa() -> GatewayRasa:
-    return GatewayRasa(
+def obtener_puerta_enlace_rasa() -> PasarelaRasa:
+    return PasarelaRasa(
         obtener_cliente_http(),
         PresentadorRasa(),
         rasa_url=ajustes.rasa_url

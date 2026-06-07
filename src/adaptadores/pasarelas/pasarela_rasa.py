@@ -8,7 +8,7 @@ from src.aplicacion.puertos.cliente_http import ClienteHTTP
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 from src.adaptadores.presentadores.presentador_rasa import PresentadorRasaInterface
 
-class GatewayRasa(PuertaEnlaceRasa):
+class PasarelaRasa(PuertaEnlaceRasa):
     def __init__(self, cliente_http: ClienteHTTP, presentador: PresentadorRasaInterface, rasa_url: str):
         self.cliente_http = cliente_http
         self.presentador = presentador

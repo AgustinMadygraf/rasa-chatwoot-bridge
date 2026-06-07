@@ -7,7 +7,7 @@ from src.aplicacion.puertos.cliente_http import ClienteHTTP
 from src.dominio.mensaje import Mensaje
 from src.adaptadores.presentadores.presentador_chatwoot import PresentadorChatwootInterface
 
-class GatewayChatwoot(PuertaEnlaceChatwoot):
+class PasarelaChatwoot(PuertaEnlaceChatwoot):
     def __init__(self, cliente_http: ClienteHTTP, presentador: PresentadorChatwootInterface, base_url: str, api_token: str, account_id: str):
         self.cliente_http = cliente_http
         self.presentador = presentador
