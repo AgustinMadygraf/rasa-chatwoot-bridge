@@ -1,6 +1,4 @@
-"""
-Path: src/dominio/mensaje.py
-"""
+# Path: src/dominio/mensaje.py
 
 from enum import Enum
 from typing import Optional

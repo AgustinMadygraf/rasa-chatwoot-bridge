@@ -1,6 +1,4 @@
-"""
-Path: src/aplicacion/puertos/registrador.py
-"""
+# Path: src/aplicacion/puertos/registrador.py
 
 from typing import Protocol, runtime_checkable
 

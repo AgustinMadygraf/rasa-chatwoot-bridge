@@ -1,6 +1,4 @@
-"""
-Path: src/dominio/objetos_valor.py
-"""
+# Path: src/dominio/objetos_valor.py
 
 from dataclasses import dataclass
 

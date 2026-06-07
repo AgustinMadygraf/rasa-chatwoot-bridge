@@ -1,6 +1,4 @@
-"""
-Path: src/aplicacion/excepciones.py
-"""
+# Path: src/aplicacion/excepciones.py
 
 class AplicacionError(Exception):
     pass

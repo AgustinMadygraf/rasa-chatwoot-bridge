@@ -1,6 +1,4 @@
-"""
-Path: src/aplicacion/puertos/servicio_tunel.py
-"""
+# Path: src/aplicacion/puertos/servicio_tunel.py
 
 from typing import Protocol, Optional
 from src.aplicacion.puertos.registrador import Registrador

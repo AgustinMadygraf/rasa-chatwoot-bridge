@@ -1,6 +1,4 @@
-"""
-Path: src/aplicacion/puertos/cliente_http.py
-"""
+# Path: src/aplicacion/puertos/cliente_http.py
 
 from typing import Protocol, Any, Dict, Optional
 

@@ -1,6 +1,4 @@
-"""
-Puerto para la comunicación con Chatwoot.
-"""
+# Path: src/aplicacion/puertos/puerta_enlace_chatwoot.py
 
 from typing import Protocol
 from src.dominio.mensaje import Mensaje

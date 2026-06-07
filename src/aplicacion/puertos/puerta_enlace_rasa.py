@@ -1,6 +1,4 @@
-"""
-Puerto para la comunicación con Rasa.
-"""
+# Path: src/aplicacion/puertos/puerta_enlace_rasa.py
 
 from typing import Protocol, List
 from src.dominio.mensaje import Mensaje

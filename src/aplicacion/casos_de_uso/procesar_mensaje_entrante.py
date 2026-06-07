@@ -1,6 +1,4 @@
-"""
-Path: src/aplicacion/casos_de_uso/procesar_mensaje_entrante.py
-"""
+# Path: src/aplicacion/casos_de_uso/procesar_mensaje_entrante.py
 
 from typing import List
 from src.dominio.mensaje import Mensaje
