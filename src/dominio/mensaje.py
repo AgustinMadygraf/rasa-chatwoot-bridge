@@ -1,9 +1,5 @@
-"""
-Path: src/dominio/mensaje.py
-"""
-
 from enum import Enum
-
+from src.dominio.objetos_valor import IdConversacion, IdRemitente
 
 class TipoMensaje(Enum):
     ENTRANTE = "incoming"
@@ -15,7 +11,6 @@ class RolRemitente(Enum):
     SISTEMA = "system"
 
 class Mensaje:
-    
     def __init__(
         self,
         id_conversacion: str,
@@ -27,9 +22,10 @@ class Mensaje:
         if not contenido or not contenido.strip():
             raise ValueError("El contenido del mensaje no puede estar vacío.")
         
-        self.id_conversacion = id_conversacion
+        # Envolviendo en Value Objects
+        self.id_conversacion = IdConversacion(id_conversacion)
         self.contenido = contenido
-        self.id_remitente = id_remitente
+        self.id_remitente = IdRemitente(id_remitente)
         self.rol_remitente = rol_remitente
         self.tipo_mensaje = tipo_mensaje
 

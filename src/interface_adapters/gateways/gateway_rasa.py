@@ -21,7 +21,7 @@ class GatewayRasa(PuertaEnlaceRasa):
         
         mensajes: List[Mensaje] = []
         for msg in response.json():
-            recipient_id = msg.get("recipient_id") or message.id_conversacion
+            recipient_id = msg.get("recipient_id") or message.id_conversacion.valor
             content = msg.get("text") or " "
             
             mensajes.append(

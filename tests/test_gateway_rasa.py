@@ -33,9 +33,9 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         resultado = await gateway.enviar_a_rasa(mensaje_original)
         
         self.assertEqual(len(resultado), 1)
-        self.assertEqual(resultado[0].id_conversacion, "123")
+        self.assertEqual(resultado[0].id_conversacion.valor, "123")
         self.assertEqual(resultado[0].contenido, "¡Hola! ¿En qué puedo ayudarte?")
-        self.assertEqual(resultado[0].id_remitente, "bot")
+        self.assertEqual(resultado[0].id_remitente.valor, "bot")
         self.assertEqual(resultado[0].rol_remitente, RolRemitente.BOT)
         self.assertEqual(resultado[0].tipo_mensaje, TipoMensaje.SALIENTE)
         
@@ -73,7 +73,7 @@ class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):
         resultado = await gateway.enviar_a_rasa(mensaje_original)
         
         self.assertEqual(len(resultado), 1)
-        self.assertEqual(resultado[0].id_conversacion, "123")
+        self.assertEqual(resultado[0].id_conversacion.valor, "123")
         self.assertEqual(resultado[0].contenido, "respuesta válida")
 
 if __name__ == "__main__":

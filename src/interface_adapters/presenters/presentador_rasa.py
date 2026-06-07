@@ -10,4 +10,4 @@ class PresentadorRasaInterface(Protocol):
 
 class PresentadorRasa:
     def a_payload_rasa(self, message: Mensaje) -> Dict[str, Any]:
-        return {"sender": message.id_conversacion, "message": message.contenido}
+        return {"sender": message.id_conversacion.valor, "message": message.contenido}

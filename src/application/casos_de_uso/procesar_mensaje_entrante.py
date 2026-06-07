@@ -22,9 +22,9 @@ class ProcesarMensajeEntrante:
                 respuestas_rasa: List[Mensaje] = await self.puerta_enlace_rasa.enviar_a_rasa(mensaje)
                 for respuesta in respuestas_rasa:
                     if respuesta.contenido:
-                        await self._enviar_a_chatwoot(mensaje.id_conversacion, respuesta.contenido)
+                        await self._enviar_a_chatwoot(mensaje.id_conversacion.valor, respuesta.contenido)
             else:
-                await self._enviar_a_chatwoot(mensaje.id_conversacion, mensaje.contenido)
+                await self._enviar_a_chatwoot(mensaje.id_conversacion.valor, mensaje.contenido)
         except Exception as e:
             self.logger.error(f"Error en caso de uso: {str(e)}")
             raise ErrorProcesamientoWebhook(f"Error procesando mensaje: {str(e)}")
