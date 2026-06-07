@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import AsyncMock, MagicMock
-from src.interface_adapters.gateways.gateway_rasa import GatewayRasa
+from src.adaptadores.gateways.gateway_rasa import GatewayRasa
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
 class TestGatewayRasa(unittest.IsolatedAsyncioTestCase):

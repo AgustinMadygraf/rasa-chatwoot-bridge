@@ -1,5 +1,5 @@
 """
-Path: src/interface_adapters/presenters/presentador_chatwoot.py
+Path: src.adaptadores.presentadores/presentador_chatwoot.py
 """
 
 from typing import Any, Dict, Protocol

@@ -1,5 +1,5 @@
 """
-Path: src/interface_adapters/presenters/presentador_rasa.py
+Path: src.adaptadores.presentadores/presentador_rasa.py
 """
 
 from typing import Any, Dict, Protocol

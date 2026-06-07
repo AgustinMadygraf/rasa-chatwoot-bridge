@@ -6,7 +6,7 @@ from typing import List
 from src.aplicacion.puertos.puerta_enlace_rasa import PuertaEnlaceRasa
 from src.aplicacion.puertos.cliente_http import ClienteHTTP
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
-from src.interface_adapters.presenters.presentador_rasa import PresentadorRasaInterface
+from src.adaptadores.presentadores.presentador_rasa import PresentadorRasaInterface
 
 class GatewayRasa(PuertaEnlaceRasa):
     def __init__(self, cliente_http: ClienteHTTP, presentador: PresentadorRasaInterface, rasa_url: str):

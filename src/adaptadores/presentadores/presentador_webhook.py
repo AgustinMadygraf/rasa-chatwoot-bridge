@@ -1,5 +1,5 @@
 """
-Path: src/interface_adapters/presenters/presentador_webhook.py
+Path: src.adaptadores.presentadores/presentador_webhook.py
 """
 
 from typing import Dict, Protocol

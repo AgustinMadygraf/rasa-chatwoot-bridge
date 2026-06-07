@@ -5,7 +5,7 @@ Implementación del gateway de Chatwoot.
 from src.aplicacion.puertos.puerta_enlace_chatwoot import PuertaEnlaceChatwoot
 from src.aplicacion.puertos.cliente_http import ClienteHTTP
 from src.dominio.mensaje import Mensaje
-from src.interface_adapters.presenters.presentador_chatwoot import PresentadorChatwootInterface
+from src.adaptadores.presentadores.presentador_chatwoot import PresentadorChatwootInterface
 
 class GatewayChatwoot(PuertaEnlaceChatwoot):
     def __init__(self, cliente_http: ClienteHTTP, presentador: PresentadorChatwootInterface, base_url: str, api_token: str, account_id: str):
