@@ -5,22 +5,22 @@ La arquitectura sigue los principios de Clean Architecture para garantizar la ma
 
 ```mermaid
 graph TD
-    A[Chatwoot Webhook] -->|HTTP| B[Interface Adapters - Controllers]
-    B -->|Convert| C[Application Layer - Use Cases]
-    C -->|API Request| D[Infrastructure - Gateways]
+    A[Chatwoot Webhook] -->|HTTP| B[Adaptadores - Controladores]
+    B -->|Convert| C[Capa de Aplicación - Casos de Uso]
+    C -->|API Request| D[Infraestructura - Pasarelas]
     D -->|HTTP| E[Rasa/Chatwoot API]
 ```
 
 ## 2. Estructura de Componentes
 | Capa | Carpeta | Responsabilidad |
 | :--- | :--- | :--- |
-| **Controllers** | `src/interface_adapters/controllers/` | Endpoints FastAPI. |
-| **Application** | `src/application/` | Orquestación, flujo del puente. |
-| **Gateways** | `src/interface_adapters/gateways/` | Clientes HTTP hacia servicios externos. |
-| **Infrastructure** | `src/infrastructure/` | Detalles técnicos (config, http client). |
-| **Domain** | `src/domain/` | Modelos de datos (Pydantic). |
+| **Controladores** | `src/adaptadores/controladores/` | Endpoints FastAPI. |
+| **Aplicación** | `src/aplicacion/` | Orquestación, flujo del puente. |
+| **Pasarelas** | `src/adaptadores/pasarelas/` | Clientes HTTP hacia servicios externos. |
+| **Infraestructura** | `src/infraestructura/` | Detalles técnicos (config, http client). |
+| **Dominio** | `src/dominio/` | Modelos de datos (Pydantic). |
 
 ## 3. Flujo de Datos
-1. **Entrada:** `WebhookController` recibe evento -> `ApplicationService` procesa.
+1. **Entrada:** `ControladorWebhook` recibe evento -> `Servicio de Aplicación` procesa.
 2. **Transformación:** El `Transformer` mapea formatos.
-3. **Salida:** `Gateway` envía mensaje al sistema destino.
+3. **Salida:** `Pasarela` envía mensaje al sistema destino.
