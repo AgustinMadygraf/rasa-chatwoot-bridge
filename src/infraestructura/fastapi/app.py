@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from src.infrastructure.fastapi.rutas_webhook import router as webhook_router
-from src.infrastructure.settings.registrador import logger
-from src.infrastructure.fastapi.dependencias import obtener_servicio_tunel
+from src.infraestructura.fastapi.rutas_webhook import router as webhook_router
+from src.infraestructura.settings.registrador import logger
+from src.infraestructura.fastapi.dependencias import obtener_servicio_tunel
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

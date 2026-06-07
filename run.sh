@@ -24,4 +24,4 @@ else
 fi
 
 echo "Iniciando aplicación en el puerto $PORT..."
-uvicorn src.infrastructure.fastapi.app:app --host 127.0.0.1 --port $PORT --reload
+uvicorn src.infraestructura.fastapi.app:app --host 127.0.0.1 --port $PORT --reload

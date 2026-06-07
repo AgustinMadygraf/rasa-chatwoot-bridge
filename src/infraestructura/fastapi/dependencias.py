@@ -5,12 +5,12 @@ from src.adaptadores.controladores.controlador_webhook import ControladorWebhook
 from src.adaptadores.presentadores.presentador_webhook import PresentadorWebhook
 from src.adaptadores.presentadores.presentador_chatwoot import PresentadorChatwoot
 from src.adaptadores.presentadores.presentador_rasa import PresentadorRasa
-from src.infrastructure.httpx.cliente_httpx import HttpxClient
+from src.infraestructura.httpx.cliente_httpx import HttpxClient
 from src.adaptadores.pasarelas.pasarela_chatwoot import PasarelaChatwoot
 from src.adaptadores.pasarelas.pasarela_rasa import PasarelaRasa
-from src.infrastructure.pyngrok.ngrok_gateway import NgrokGateway
-from src.infrastructure.settings.config import ajustes
-from src.infrastructure.settings.registrador import logger
+from src.infraestructura.pyngrok.ngrok_gateway import NgrokGateway
+from src.infraestructura.settings.config import ajustes
+from src.infraestructura.settings.registrador import logger
 
 @lru_cache()
 def obtener_cliente_http() -> HttpxClient:
@@ -27,9 +27,9 @@ def obtener_puerta_enlace_chatwoot() -> PasarelaChatwoot:
     return PasarelaChatwoot(
         obtener_cliente_http(),
         PresentadorChatwoot(),
-        base_url=ajustes.chatwoot_base_url,
-        api_token=ajustes.chatwoot_api_token,
-        account_id=ajustes.chatwoot_account_id
+        base_url=ajustes.url_base_chatwoot,
+        api_token=ajustes.token_api_chatwoot,
+        account_id=ajustes.id_cuenta_chatwoot
     )
 
 @lru_cache()
@@ -37,7 +37,7 @@ def obtener_puerta_enlace_rasa() -> PasarelaRasa:
     return PasarelaRasa(
         obtener_cliente_http(),
         PresentadorRasa(),
-        rasa_url=ajustes.rasa_url
+        rasa_url=ajustes.url_rasa
     )
 
 @lru_cache()
