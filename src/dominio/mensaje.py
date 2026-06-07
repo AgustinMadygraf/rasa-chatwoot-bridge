@@ -1,3 +1,7 @@
+"""
+Path: src/dominio/mensaje.py
+"""
+
 from enum import Enum
 from typing import Optional
 from src.dominio.objetos_valor import IdConversacion, IdRemitente
@@ -30,7 +34,7 @@ class Mensaje:
         self.tipo_mensaje = tipo_mensaje
 
     @classmethod
-    def crear_seguro(
+    def crear_asegurando_contenido(
         cls,
         id_conversacion: str,
         contenido: Optional[str],
@@ -38,7 +42,6 @@ class Mensaje:
         rol_remitente: RolRemitente,
         tipo_mensaje: TipoMensaje
     ) -> 'Mensaje':
-        """Factoría que sanea el contenido antes de instanciar."""
         contenido_saneado = contenido if contenido and contenido.strip() else "..."
         return cls(
             id_conversacion=id_conversacion,
@@ -49,8 +52,7 @@ class Mensaje:
         )
 
     @classmethod
-    def responder(cls, id_conversacion: str, contenido: str) -> 'Mensaje':
-        """Crea un mensaje de respuesta del bot."""
+    def responder_como_bot(cls, id_conversacion: str, contenido: str) -> 'Mensaje':
         return cls(
             id_conversacion=id_conversacion,
             contenido=contenido,

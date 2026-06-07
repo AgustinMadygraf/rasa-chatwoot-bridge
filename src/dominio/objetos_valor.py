@@ -1,3 +1,7 @@
+"""
+Path: src/dominio/objetos_valor.py
+"""
+
 from dataclasses import dataclass
 
 @dataclass(frozen=True)

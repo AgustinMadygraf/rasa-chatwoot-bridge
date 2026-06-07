@@ -1,5 +1,5 @@
 """
-Caso de uso para procesar mensajes entrantes desde Chatwoot.
+Path: src/aplicacion/casos_de_uso/procesar_mensaje_entrante.py
 """
 
 from typing import List
@@ -33,7 +33,7 @@ class ProcesarMensajeEntrante:
                 for respuesta in respuestas_rasa:
                     await self.puerta_enlace_chatwoot.enviar_mensaje(respuesta)
             else:
-                respuesta_directa = Mensaje.responder(
+                respuesta_directa = Mensaje.responder_como_bot(
                     id_conversacion=mensaje.id_conversacion.valor, 
                     contenido=mensaje.contenido
                 )

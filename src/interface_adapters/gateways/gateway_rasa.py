@@ -1,5 +1,5 @@
 """
-Implementación del gateway de Rasa.
+Path: src/interface_adapters/gateways/gateway_rasa.py
 """
 
 from typing import List
@@ -26,7 +26,7 @@ class GatewayRasa(PuertaEnlaceRasa):
             
             # Solo procesamos mensajes que tengan contenido textual
             if raw_content and raw_content.strip():
-                mensajes.append(Mensaje.crear_seguro(
+                mensajes.append(Mensaje.crear_asegurando_contenido(
                     id_conversacion=str(recipient_id),
                     contenido=raw_content,
                     id_remitente='bot',

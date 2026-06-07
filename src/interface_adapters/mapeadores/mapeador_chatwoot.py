@@ -1,3 +1,7 @@
+"""
+Path: src/interface_adapters/mapeadores/mapeador_chatwoot.py
+"""
+
 from typing import Any, Dict
 from src.dominio.mensaje import Mensaje, TipoMensaje, RolRemitente
 
@@ -9,7 +13,7 @@ class MapeadorChatwoot:
         sender_id = str(payload["sender"]["id"])
         role = RolRemitente.BOT if msg_type == TipoMensaje.SALIENTE else RolRemitente.USUARIO
         
-        return Mensaje.crear_seguro(
+        return Mensaje.crear_asegurando_contenido(
             id_conversacion=str(payload["conversation"]["id"]),
             contenido=payload.get("content"),
             id_remitente=sender_id,
