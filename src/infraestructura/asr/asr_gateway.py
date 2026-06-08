@@ -4,7 +4,7 @@ import os
 import tempfile
 import time
 import asyncio
-from faster_whisper import WhisperModel
+from faster_whisper import WhisperModel # type: ignore
 from src.aplicacion.puertos.puerta_enlace_asr import PuertaEnlaceASR
 from src.aplicacion.puertos.cliente_http import ClienteHTTP
 from src.infraestructura.settings.registrador import logger
@@ -20,6 +20,7 @@ class WhisperASRGateway(PuertaEnlaceASR):
     async def transcribir_audio(self, audio_url: str) -> str:
         start_time = time.time()
         cabeceras = {"api_access_token": self.api_token}
+        tmp_path = None
         
         try:
             respuesta = await self.cliente_http.obtener(audio_url, cabeceras=cabeceras)
@@ -36,15 +37,14 @@ class WhisperASRGateway(PuertaEnlaceASR):
             tmp_path = tmp.name
             
         try:
-            # Ejecutar inferencia en un hilo separado para no bloquear el event loop
-            # Se fuerza el idioma a español para mejorar precisión
-            segments, _ = await asyncio.to_thread(self.model.transcribe, tmp_path, language="es")
-            
-            transcripciones = []
-            for segment in segments:
-                transcripciones.append(str(segment.text))
-                
-            texto = " ".join(transcripciones)
+            # Whisper devuelve un generador. Debemos consumirlo por completo dentro del hilo
+            # para evitar bloquear el event loop de FastAPI durante la inferencia pesada.
+            def _ejecutar_transcripcion_sincrona() -> str:
+                # Ignoramos el aviso de tipo desconocido proveniente de la firma de faster-whisper
+                segments, _ = self.model.transcribe(tmp_path, language="es") # type: ignore
+                return " ".join([segment.text for segment in segments])
+
+            texto = await asyncio.to_thread(_ejecutar_transcripcion_sincrona)
             
             duration = time.time() - start_time
             logger.informar(f"Transcripción exitosa en {duration:.2f} segundos")
@@ -53,5 +53,5 @@ class WhisperASRGateway(PuertaEnlaceASR):
             logger.registrar_error(f"Error en inferencia ASR: {str(e)}")
             raise ErrorInferenciaASR(f"Fallo en la transcripción: {str(e)}")
         finally:
-            if os.path.exists(tmp_path):
+            if tmp_path and os.path.exists(tmp_path):
                 os.remove(tmp_path)

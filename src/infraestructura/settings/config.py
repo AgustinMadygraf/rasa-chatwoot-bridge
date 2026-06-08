@@ -16,7 +16,8 @@ class Configuracion:
     usar_ngrok: bool = os.getenv("USE_NGROK", "False").lower() == "true"
     token_auth_ngrok: str = os.getenv("NGROK_AUTH_TOKEN", "")
     dominio_ngrok: str = os.getenv("NGROK_DOMAIN", "")
-    puerto_aplicacion: int = int(os.getenv("PORT", "8000"))
+    puerto_aplicacion: int = int(os.getenv("PORT", "5004"))
     usar_rasa: bool = os.getenv("USE_RASA", "True").lower() == "true"
+    nivel_log: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 ajustes = Configuracion()

@@ -3,6 +3,7 @@
 import logging
 import sys
 from src.aplicacion.puertos.registrador import Registrador
+from src.infraestructura.settings.config import ajustes
 
 class RegistradorAdapter:
     def __init__(self, logger: logging.Logger):
@@ -22,16 +23,21 @@ class RegistradorAdapter:
 
 def configurar_logger() -> Registrador:
     logger = logging.getLogger('puente_rasa_chatwoot')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(ajustes.nivel_log)
+    
     handler = logging.StreamHandler(sys.stdout)
-    formato = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    # Formato más limpio: [HORA] [NIVEL] Mensaje
+    formato = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
     handler.setFormatter(formato)
-    logger.addHandler(handler)
+    
+    if not logger.handlers:
+        logger.addHandler(handler)
+        
     return RegistradorAdapter(logger)
 
 def configurar_logging_ngrok(logger: Registrador):
-    logger_ngrok = logging.getLogger('pyngrok')
-    logger_ngrok.setLevel(logging.WARNING)
-    logging.getLogger('pyngrok.process.ngrok').setLevel(logging.WARNING)
+    # Silenciar logs ruidosos de dependencias
+    for log_name in ['pyngrok', 'httpx', 'httpcore', 'uvicorn', 'uvicorn.access', 'uvicorn.error']:
+        logging.getLogger(log_name).setLevel(logging.WARNING)
 
 logger = configurar_logger()
